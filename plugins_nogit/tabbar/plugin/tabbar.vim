@@ -474,7 +474,7 @@ function! <SID>Tb_Toggle()
         call <SID>Tb_Stop(1)
     else
         call <SID>Tb_Start(1, -1)
-        " wincmd p
+        wincmd p
     endif
 
     if g:Tb_DBG_LVL > 0
