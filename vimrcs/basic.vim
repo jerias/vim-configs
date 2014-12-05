@@ -150,13 +150,6 @@ inoremap <C-U> <C-G>u<C-U>
 " Enable syntax highlighting
 syntax enable
 
-" TODO:  Find out why this doesn't load here (also loaded in extended.vim)
-try
-    " ir_black modified by jpm
-    colorscheme ir_black_jpm
-catch
-endtry
-
 set background=dark
 
 " Set extra options when running in GUI mode
