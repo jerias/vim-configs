@@ -170,13 +170,12 @@ set ffs=unix,dos,mac
 set cursorline
 
 if has("gui_running")
-    "set guifont=ProggyCleanTTSZBP\ 12
-    "set guifont=Neep\ 18
-    "set guifont=terminus\ 18
-    "set guifont=Neep\ Alt\ Medium\ Semi-Condensed\ 14
-    "set guifont=Inconsolata\ Medium\ 15
-    "set guifont=Anonymous\ 9
-    set guifont=Anonymous\ Pro\ for\ Powerline\ 14
+    if $USER == "root"
+        set guifont=Monospace\ 12
+    else
+        set guifont=Anonymous\ Pro\ 14
+    endif
+
     set lines=60
     set columns=200
 
