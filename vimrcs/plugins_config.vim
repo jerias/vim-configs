@@ -110,6 +110,7 @@ autocmd! StdinReadPost      * TbAup
 "autocmd! BufReadPre         * TbStop
 "autocmd! BufReadPost        * TbStart
 
+autocmd! VimEnter           * wincmd l
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => surround.vim config
 " Annotate strings with gettext http://amix.dk/blog/post/19678
