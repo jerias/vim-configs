@@ -143,9 +143,13 @@ endif
 if !exists(':Tbbn')
       command! Tbbn call <SID>Bf_Cycle(1)
 endif
-if !exists(':Tbp')
+if !exists(':Tbbp')
       command! Tbbp call <SID>Bf_Cycle(0)
-endif " %%
+endif
+if !exists(':Tbbd')
+      command! Tbbd call <SID>Bf_DelWithD()
+endif
+" %%
 
 
 
@@ -367,6 +371,9 @@ function! <SID>Tb_Start(sticky, delBufNum)
     " them off for the -TabBar- window
     setlocal foldcolumn=0
     setlocal nonumber
+
+    " Keeps the TabBar window size when resizing the whole application
+    set winfixheight
 
     setlocal nocursorline
     setlocal scrolloff=0
@@ -627,6 +634,38 @@ endfunction " %%
 "-------------------"
 " Window operations "
 "-------------------"
+
+" Win_Goto_Main - goto the main editing window ~~
+function! <SID>Win_Goto_Main()
+    " move to tabbar window first,
+    " and move up or down to ensure the window
+    " at the right place
+
+    " if not at tabbar window, goto tabbar window first
+    if bufname("%") != "-TabBar-"
+        let l:tabbar_win_num = bufwinnr("-TabBar-")
+        exe l:tabbar_win_num . "wincmd w"
+    endif
+
+    " tabbar is opened below
+    if g:Tb_SplitBelow == 1
+        " move up
+        exe "wincmd k"
+        " find first modifiable buffer window
+"        while &modifiable == 0
+"            exe "wincmd k"
+"        endwhile
+    elseif g:Tb_VSplit == 1
+        exe "wincmd l"
+    else
+        " move down
+        exe "wincmd j"
+        " find first modifiable buffer window
+"        while &modifiable == 0
+"            exe "wincmd j"
+"        endwhile
+    endif
+endfunction " %%
 " Win_Find - Return the window number of a named buffer ~~
 " If none is found then returns -1.
 function! <SID>Win_Find(bufName)
@@ -883,7 +922,6 @@ function! <SID>Bf_Choosed()
     endif
 endfunction " %%
 
-
 " Bf_DelWithD - From the -TabBar- window, delete selected buffer from list ~~
 " After making sure that we are in our explorer, This will delete the buffer
 " under the cursor. If the buffer under the cursor is being displayed in a
@@ -899,11 +937,27 @@ function! <SID>Bf_DelWithD()
         if g:Tb_DBG_LVL > 0
             call <SID>DEBUG('EXIT : Bf_DelWithD not called in -TabBar-',1)
         endif
-        return
+        " delete the current buffer which calls this function
+
+        " get tabbar number of the buffer (search from g:Tb_VimBufList string)
+        let l:tabbar_num_list = matchlist(g:Tb_VimBufList, '\(\d\+\):' . expand("%:t"))
+
+        " find filename, assign first pattern
+        if l:tabbar_num_list != []
+            let l:selected_buf = l:tabbar_num_list[1]
+        " not find filename, only one file in the buffer, so it must be "1"
+        else
+            " let l:selected_buf = expand("%:t")
+            let l:selected_buf = 1
+        endif
+        " move to previous buffer
+        exe "Tbbp"
+    else
+        let l:selected_buf  =  <SID>Bf_Choosed()
     endif
 
-    let l:selected_buf  =  <SID>Bf_Choosed()
     let l:selected_buf  =  <SID>Map_Get_key( l:selected_buf )
+
     if g:Tb_DBG_LVL > 0
         call <SID>DEBUG('Bf_DelWithD: l:selected_buf=['.l:selected_buf.']',5)
     endif
@@ -985,20 +1039,20 @@ function! <SID>Bf_DelWithD()
         if g:Tb_DBG_LVL > 0
             call <SID>DEBUG('Bf_DelWithD: Restoring previous window to: '.l:prevWin,5)
         endif
-        exec l:prevWin.' wincmd w'
 
+        " exec l:prevWin.' wincmd w'
         " Try to get back to the -TabBar- window
-        let l:winNum = bufwinnr(bufnr('-TabBar-'))
-        if l:winNum != -1
-            exec l:winNum.' wincmd w'
-            if g:Tb_DBG_LVL > 0
-                call <SID>DEBUG('Bf_DelWithD: Got to -TabBar- window: '.winnr(),5)
-            endif
-        else
-            if g:Tb_DBG_LVL > 0
-                call <SID>DEBUG('Bf_DelWithD: Unable to get to -TabBar- window',1)
-            endif
-        endif
+        " let l:winNum = bufwinnr(bufnr('-TabBar-'))
+        " if l:winNum != -1
+            " exec l:winNum.' wincmd w'
+            " if g:Tb_DBG_LVL > 0
+                " call <SID>DEBUG('Bf_DelWithD: Got to -TabBar- window: '.winnr(),5)
+            " endif
+        " else
+            " if g:Tb_DBG_LVL > 0
+                " call <SID>DEBUG('Bf_DelWithD: Unable to get to -TabBar- window',1)
+            " endif
+        " endif
 
         " Delete the buffer selected.
         if g:Tb_DBG_LVL > 0
@@ -1022,8 +1076,9 @@ function! <SID>Bf_DelWithD()
     if g:Tb_DBG_LVL > 0
         call <SID>DEBUG('EXIT : Bf_DelWithD() g:Tb_VimBufList =['. g:Tb_VimBufList.'] g:Tb_BufferMap=['.g:Tb_BufferMap.']',10)
     endif
-endfunction " %%
 
+    call <SID>Win_Goto_Main()
+endfunction " %%
 
 " Bf_SafePrint - Wrapper for getting -TabBar- window shown ~~
 "
@@ -1252,7 +1307,7 @@ endfunction " %%
 
 " Bf_SwitchTo      Switch to bufNum( parameter) buffer~~
 function! <SID>Bf_SwitchTo( bufNum)
-
+    " call <SID>Win_Goto_Main()
     let l:vimbuf = <SID>Map_Get_key( a:bufNum )
     exec "b!" . l:vimbuf
 endfunction " %%

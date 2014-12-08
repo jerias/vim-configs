@@ -212,6 +212,8 @@ let MRU_File = expand("$HOME/.vim/temp_dirs/vim_mru_files")
 "  n... :  where to save the viminfo files
 "set viminfo='20,\"100,:20,%,n~/.vim/viminfo
 set viminfo='20,\"100,:20,n~/.vim/temp_dirs/viminfo
+" Remember info about open buffers on close
+"set viminfo^=%
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Text, tab and indent related
@@ -299,8 +301,6 @@ autocmd BufReadPost *
      \ if line("'\"") > 0 && line("'\"") <= line("$") |
      \   exe "normal! g`\"" |
      \ endif
-" Remember info about open buffers on close
-set viminfo^=%
 
 " Stops resetting cursor to begining of line when saving or switching buffers
 set nostartofline
