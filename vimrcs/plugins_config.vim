@@ -122,6 +122,7 @@ au FileType mako vmap Si S"i${ _(<esc>2f"a) }<esc>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => AirLine
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:airline#extensions#tabline#enabled = 0
 let g:airline_powerline_fonts = 0
 " unicode symbols
 let g:airline_symbols = {}
@@ -135,6 +136,7 @@ if has("gui_running")
 endif
 
 "let g:airline_theme=
+set showtabline=1
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Powerline
