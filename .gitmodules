@@ -1,24 +1,21 @@
 [submodule "plugins_git/ctrlp.vim"]
-	path = plugins_git/ctrlp.vim
-	url = https://github.com/kien/ctrlp.vim.git
+    path = plugins_git/ctrlp.vim
+    url = https://github.com/kien/ctrlp.vim.git
 [submodule "plugins_git/nerdtree"]
-	path = plugins_git/nerdtree
-	url = https://github.com/scrooloose/nerdtree.git
+    path = plugins_git/nerdtree
+    url = https://github.com/scrooloose/nerdtree.git
 [submodule "plugins_git/vim-surround"]
-	path = plugins_git/vim-surround
-	url = https://github.com/tpope/vim-surround.git
+    path = plugins_git/vim-surround
+    url = https://github.com/tpope/vim-surround.git
 [submodule "plugins_git/mru"]
-	path = plugins_git/mru
-	url = https://github.com/yegappan/mru.git
+    path = plugins_git/mru
+    url = https://github.com/yegappan/mru.git
 [submodule "plugins_git/tabular"]
-	path = plugins_git/tabular
-	url = https://github.com/godlygeek/tabular.git
-[submodule "plugins_git/Tagbar"]
-	path = plugins_git/Tagbar
-	url = https://github.com/vim-scripts/Tagbar.git
+    path = plugins_git/tabular
+    url = https://github.com/godlygeek/tabular.git
 [submodule "plugins_git/vim-airline"]
-	path = plugins_git/vim-airline
-	url = https://github.com/bling/vim-airline.git
+    path = plugins_git/vim-airline
+    url = https://github.com/bling/vim-airline.git
 [submodule "plugins_git/vim-fugitive"]
-	path = plugins_git/vim-fugitive
-	url = https://github.com/tpope/vim-fugitive.git
+    path = plugins_git/vim-fugitive
+    url = https://github.com/tpope/vim-fugitive.git
