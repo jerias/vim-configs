@@ -43,8 +43,8 @@ set guioptions-=L
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Fast editing and reloading of vimrc configs
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-map <leader>e :e! ~/.vim/my_configs.vim<cr>
-autocmd! bufwritepost vimrc source ~/.vim/my_configs.vim
+map <leader>e :e! ~/.vim/vimrcs/vimrc<cr>
+autocmd! bufwritepost vimrc source ~/.vim/vimrcs/vimrc
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -72,9 +72,9 @@ cno $c e <C-\>eCurrentFileDir("e")<cr>
 cno $q <C-\>eDeleteTillSlash()<cr>
 
 " Bash like keys for the command line
-cnoremap <C-A>        <Home>
-cnoremap <C-E>        <End>
-cnoremap <C-K>        <C-U>
+"cnoremap <C-A>        <Home>
+"cnoremap <C-E>        <End>
+"cnoremap <C-K>        <C-U>
 
 cnoremap <C-P> <Up>
 cnoremap <C-N> <Down>

@@ -81,6 +81,7 @@ let g:Tb_MaxSize=35
 let g:Tb_AutoUpdt = 1
 let g:Tb_UseSingleClick = 1
 let s:thisBufMod=0
+let g:Tb_MoreThanOne=0
 function! CheckModified()
     if &modified
         if s:thisBufMod == 0
@@ -111,6 +112,7 @@ autocmd! StdinReadPost      * TbAup
 "autocmd! BufReadPost        * TbStart
 
 autocmd! VimEnter           * wincmd l
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => surround.vim config
 " Annotate strings with gettext http://amix.dk/blog/post/19678

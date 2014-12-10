@@ -172,7 +172,9 @@ set ffs=unix,dos,mac
 set cursorline
 
 if has("gui_running")
-    if $USER == "root"
+    if has("win16") || has("win32") || has("win64")
+        set guifont=Courier_New:h11
+    elseif $USER == "root"
         set guifont=Monospace\ 12
     else
         set guifont=Anonymous\ Pro\ 14
