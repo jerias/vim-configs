@@ -311,6 +311,9 @@ let @z="_v48|c.lyeE50i pBd49|i(Ai)j"
 
 noremap <F9> :call FormatToInstanceLine()<CR>
 function! FormatToInstanceLine()
+    " Has issues when wrap is enabled - temporarily disable if it's on
+    let l:mywrap = &wrap
+    setlocal nowrap
     let l:winview = winsaveview()
     let curline=getline('.')
     if curline=~"^ *input" || curline=~"^ *output" || curline=~"^ *inout" || curline=~"^ *lal_intf" || curline=~"^ *al_intf" || curline=~"^ *il_intf" || curline=~"^ *gen_clock_s" || curline=~"^ *interface"
@@ -360,6 +363,10 @@ function! FormatToInstanceLine()
         endif
     endif
     call winrestview(l:winview)
+    " Restore previous wrap setting
+    if l:mywrap
+        set wrap
+    endif
 endfunction
 
 noremap <C-F9> :call FormatToInstance()<CR>

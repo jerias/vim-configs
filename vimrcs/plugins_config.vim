@@ -70,7 +70,7 @@ endfunction
 map <F4> :call TNERDTree()<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Tab Bar
+" => TabBar
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 map <F3> :TbToggle<CR>
 map <S-F3> :TbAup<CR>
@@ -81,7 +81,7 @@ let g:Tb_MaxSize=35
 let g:Tb_AutoUpdt = 1
 let g:Tb_UseSingleClick = 1
 let s:thisBufMod=0
-let g:Tb_MoreThanOne=0
+let g:Tb_MoreThanOne=2
 function! CheckModified()
     if &modified
         if s:thisBufMod == 0
@@ -112,6 +112,7 @@ autocmd! StdinReadPost      * TbAup
 "autocmd! BufReadPost        * TbStart
 
 autocmd! VimEnter           * wincmd l
+autocmd! VimLeave           * TbStop
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => surround.vim config
