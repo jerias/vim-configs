@@ -114,6 +114,8 @@ autocmd! StdinReadPost      * TbAup
 autocmd! VimEnter           * wincmd l
 autocmd! VimLeave           * TbStop
 
+autocmd! VimEnter           * :call GlobalOptions#SetWindowLocal('scrolloff', 7)
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => surround.vim config
 " Annotate strings with gettext http://amix.dk/blog/post/19678
@@ -155,3 +157,10 @@ set showtabline=1
 "
 "call Pl#Theme#RemoveSegment('fileencoding')
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Indent guide
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:indent_guides_enable_on_vim_startup=1
+let g:indent_guides_auto_colors = 0
+autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=#151515   ctermbg=black
+autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#111111 ctermbg=darkgrey
