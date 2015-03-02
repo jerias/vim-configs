@@ -19,3 +19,9 @@
 [submodule "plugins_git/vim-fugitive"]
     path = plugins_git/vim-fugitive
     url = https://github.com/tpope/vim-fugitive.git
+[submodule "plugins_git/GlobalOptions"]
+	path = plugins_git/GlobalOptions
+	url = https://github.com/vim-scripts/GlobalOptions.git
+[submodule "plugins_git/vim-indent-guides"]
+	path = plugins_git/vim-indent-guides
+	url = https://github.com/nathanaelkane/vim-indent-guides.git
