@@ -144,6 +144,7 @@ map Q gq
 " so that you can undo CTRL-U after inserting a line break.
 inoremap <C-U> <C-G>u<C-U>
 
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colors and Fonts
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -471,3 +472,12 @@ function! <SID>BufcloseCloseIt()
      execute("bdelete! ".l:currentBufNum)
    endif
 endfunction
+
+""  Remap alt-e to go to end of previous word
+if has("gui_running")
+    nnoremap <m-e> ge
+    nnoremap <m-E> gE
+else
+    nnoremap e ge
+    nnoremap E gE
+endif
