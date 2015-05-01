@@ -242,8 +242,6 @@ set ai "Auto indent
 set si "Smart indent
 set wrap "Wrap lines
 set linebreak
-set textwidth=0
-
 
 """"""""""""""""""""""""""""""
 " => Visual mode related
