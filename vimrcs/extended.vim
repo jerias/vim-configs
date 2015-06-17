@@ -247,9 +247,9 @@ endfunction
 "--------------------------------------------------------------------------------
 
 " Session management
-nmap <C-F12> <ESC>:call LoadSession()<CR>
-nmap <C-F11> <ESC>:call SaveSession()<CR>
 nmap <C-F10> <ESC>:call GetSessionName()<CR>
+nmap <C-F11> <ESC>:call LoadSession()<CR>
+nmap <C-F12> <ESC>:call SaveSession()<CR>
 
 " don't store any options in sessions
 if version >= 700
