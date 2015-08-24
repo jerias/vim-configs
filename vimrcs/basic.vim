@@ -178,7 +178,10 @@ if has("gui_running")
     elseif $USER == "root"
         set guifont=Monospace\ 12
     else
-        set guifont=Anonymous\ Pro\ 14
+        "set guifont=Envy\ Code\ R\ 12
+        "set guifont=Input\ Mono\ Condensed\ 12
+        "set guifont=Input\ 12
+        set guifont=Monaco\ 12
     endif
 
     set lines=60
