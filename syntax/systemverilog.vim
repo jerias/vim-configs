@@ -1,9 +1,9 @@
 "Author: Nachum Kanovsky
 "Email: nkanovsky yahoo com
-"Version: 1.3
-"if exists("b:current_syntax")
-"    finish
-"endif
+"Version: 1.4
+if exists("b:current_syntax")
+    finish
+endif
 
 let b:current_syntax = "systemverilog"
 
@@ -16,7 +16,7 @@ syntax region svString start=+"+ skip=+\\"+ end=+"+
 syntax keyword svType real realtime event reg wire integer logic bit time byte chandle genvar signed unsigned shortint shortreal string void int specparam
 syntax keyword svDirection input output inout ref
 syntax keyword svStorageClass parameter localparam virtual var protected rand const static automatic extern forkjoin export import
-syntax match svInvPre "`\(\K\k*\)*\>"
+"syntax match svInvPre "`\(\K\k*\)*\>"
 syntax match svPreProc "`\(__FILE__\|__LINE__\|begin_keywords\|celldefine\|default_nettype\|end_keywords\|endcelldefine\|include\|line\|nounconnected_drive\|pragma\|resetall\|timescale\|unconnected_drive\|undef\|undefineall\)\>"
 syntax match svPreCondit "`\(else\|elsif\|endif\|ifdef\|ifndef\)\>"
 syntax match svInclude "`include\>"
@@ -26,12 +26,12 @@ syntax match svLabel "^\W*[a-zA-Z_]\+[a-zA-Z_0-9,\[\]\t ]*:"he=e-1 contained
 syntax region svCase matchgroup=svConditional start="\<case\|casex\|casez\>" end="\<endcase\>" contains=ALL
 syntax keyword svRepeat for foreach do while forever repeat
 syntax keyword svKeyword fork join join_any join_none begin end module endmodule function endfunction task endtask always always_ff always_latch always_comb initial this generate endgenerate config endconfig class endclass clocking endclocking interface endinterface module endmodule package endpackage modport posedge negedge edge defparam assign deassign alias return disable wait continue and buf bufif0 bufif1 nand nor not or xnor xor tri tri0 tri1 triand trior trireg pull0 pull1 pullup pulldown cmos default endprimitive endspecify endtable force highz0 highz1 ifnone large macromodule medium nmos notif0 notif1 pmos primitive rcmos release rnmos rpmos rtran rtranif0 rtranif1 scalared small specify strong0 strong1 supply0 supply1 table tran tranif0 tranif1 vectored wand weak0 weak1 wor cell design incdir liblist library noshowcancelled pulsestyle_ondetect pulsestyle_onevent showcancelled use instance uwire assert assume before bind bins binsof break constraint context cover covergroup coverpoint cross dist endgroup endprogram endproperty endsequence enum expect extends final first_match ignore_bins illegal_bins inside intersect local longint matches new null packed priority program property pure randc randcase randsequence sequence solve struct super tagged throughout timeprecision timeunit type typedef union unique wait_order wildcard with within accept_on checker endchecker eventually global implies let nexttime reject_on restrict s_always s_eventually s_nexttime s_until s_until_with strong sync_accept_on sync_reject_on unique0 until until_with untyped weak implements interconnect nettype soft
-"syntax match svNumber "\<\(\d\+\|Zz\|Xx\|\)\('\([Hh][0-9a-fA-FZzXx]*\|[Dd][0-9ZzXx]*\|[Bb][01XxZz]*\)\)\?\>"
-syntax match svNumber "\(\<\d\+\|\)'[sS]\?[bB]\s*[0-1_xXzZ?]\+\>"
-syntax match svNumber "\(\<\d\+\|\)'[sS]\?[oO]\s*[0-7_xXzZ?]\+\>"
-syntax match svNumber "\(\<\d\+\|\)'[sS]\?[dD]\s*[0-9_xXzZ?]\+\>"
-syntax match svNumber "\(\<\d\+\|\)'[sS]\?[hH]\s*[0-9a-fA-F_xXzZ?]\+\>"
-syntax match svNumber "\<[+-]\=[0-9_]\+\(\.[0-9_]*\|\)\(e[0-9_]*\|\)\>"
+"syntax match svInteger "\(\<[0-9_]\+\>\(\s*'\)\@!\|\(\<[0-9_]\+\>\)\?\(\s*'\([01ZzXx?]\|s\?\([Hh]\s*[0-9a-fA-FZzXx?_]\+\|[Dd?]\s*\([0-9_]\+\|[0-9ZzXx_]\)\|[Oo]\s*[0-7ZzXx?_]\+\|[Bb]\s*[01XxZz?_]\+\)\)\>\)\)"
+syntax match svInteger "\(\<\d\+\|\)'[sS]\?[bB]\s*[0-1_xXzZ?]\+\>"
+syntax match svInteger "\(\<\d\+\|\)'[sS]\?[oO]\s*[0-7_xXzZ?]\+\>"
+syntax match svInteger "\(\<\d\+\|\)'[sS]\?[dD]\s*[0-9_xXzZ?]\+\>"
+syntax match svInteger "\(\<\d\+\|\)'[sS]\?[hH]\s*[0-9a-fA-F_xXzZ?]\+\>"
+syntax match svInteger "\<[+-]\=[0-9_]\+\(\.[0-9_]*\|\)\(e[0-9_]*\|\)\>"
 syntax match svTime "\<[0-9]\+\(ns\|ms\|us\|fs\|ps\|s\)\>"
 syntax keyword svStructure struct union enum
 syntax keyword svTypedef typedef
@@ -59,7 +59,7 @@ highlight! default link svConditional Conditional
 highlight! default link svLabel Label
 highlight! default link svRepeat Repeat
 highlight! default link svKeyword Keyword
-highlight! default link svNumber Number
+highlight! default link svInteger Number
 highlight! default link svTime Number
 highlight! default link svStructure Structure
 highlight! default link svTypedef Typedef

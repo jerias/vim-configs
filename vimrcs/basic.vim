@@ -144,6 +144,8 @@ map Q gq
 " so that you can undo CTRL-U after inserting a line break.
 inoremap <C-U> <C-G>u<C-U>
 
+" Clipboard
+set clipboard=unnamedplus,unnamed
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colors and Fonts
@@ -181,7 +183,8 @@ if has("gui_running")
         "set guifont=Envy\ Code\ R\ 12
         "set guifont=Input\ Mono\ Condensed\ 12
         "set guifont=Input\ 12
-        set guifont=Monaco\ 12
+        "set guifont=Monaco\ 12
+        set guifont=Hack\ 12
     endif
 
     set lines=60
