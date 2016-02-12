@@ -4,6 +4,7 @@
 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+let g:hl_matchit_enable_on_vim_startup = 1
 
 """"""""""""""""""""""""""""""
 " => Load pathogen paths
@@ -164,3 +165,26 @@ set showtabline=1
 " let g:indent_guides_auto_colors = 0
 " autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=#151515   ctermbg=black
 " autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#111111 ctermbg=darkgrey
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => verilog_systemverilog
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" goto instance top
+map <leader>u :VerilogGotoInstanceStart<CR>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => hl_matchit
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"" If this variable is set, augroup is defined, and start highlighting.
+let g:hl_matchit_enable_on_vim_startup = 1
+
+"" you can specify highlight group. see :highlight
+let g:hl_matchit_hl_groupname = 'MatchParen'
+
+"" I recomend  g:hl_matchit_speed_level = 1 because highlight is
+"" just an addition.
+"" If 1 is set, sometimes do not highlight.
+let g:hl_matchit_speed_level = 1 " or 2
+
+"" you can specify use hl_matchit filetype.
+"let g:hl_matchit_allow_ft = 'html,vim,sh' " blah..blah..

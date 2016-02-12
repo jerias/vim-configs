@@ -147,6 +147,9 @@ inoremap <C-U> <C-G>u<C-U>
 " Clipboard
 set clipboard=unnamedplus,unnamed
 
+" Enable matchit
+runtime macros/matchit.vim
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colors and Fonts
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -173,6 +176,8 @@ set ffs=unix,dos,mac
 
 " Horizonal cursorline
 set cursorline
+" Vertical cursorline
+set cursorline cursorcolumn
 
 if has("gui_running")
     if has("win16") || has("win32") || has("win64")

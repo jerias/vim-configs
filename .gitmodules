@@ -25,3 +25,9 @@
 [submodule "plugins_git/vim-indent-guides"]
 	path = plugins_git/vim-indent-guides
 	url = https://github.com/nathanaelkane/vim-indent-guides.git
+[submodule "plugins_git/verilog_systemverilog.vim"]
+	path = plugins_git/verilog_systemverilog.vim
+	url = https://github.com/vhda/verilog_systemverilog.vim
+[submodule "plugins_git/hl_matchit.vim"]
+	path = plugins_git/hl_matchit.vim
+	url = https://github.com/vimtaku/hl_matchit.vim.git
