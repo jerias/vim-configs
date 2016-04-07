@@ -150,6 +150,10 @@ set clipboard=unnamedplus,unnamed
 " Enable matchit
 runtime macros/matchit.vim
 
+" Map ctrl-q to macro @q for convinience
+noremap <C-q> @q
+
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colors and Fonts
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -262,6 +266,13 @@ set linebreak
 vnoremap <silent> * :call VisualSelection('f', '')<CR>
 vnoremap <silent> # :call VisualSelection('b', '')<CR>
 
+""""""""""""""""""""""""""""""
+" => Diff mode
+""""""""""""""""""""""""""""""
+if &diff
+    set diffopt+=iwhite
+    set noro
+endif
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Moving around, tabs, windows and buffers

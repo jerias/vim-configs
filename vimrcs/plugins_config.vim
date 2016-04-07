@@ -65,7 +65,7 @@ map <leader>nf :NERDTreeFind<cr>
 
 function! TNERDTree()
     NERDTreeToggle
-    TbToggle
+    "TbToggle
 endfunction
 
 map <F4> :call TNERDTree()<CR>
@@ -82,7 +82,7 @@ let g:Tb_MaxSize=35
 let g:Tb_AutoUpdt = 1
 let g:Tb_UseSingleClick = 1
 let s:thisBufMod=0
-let g:Tb_MoreThanOne=2
+let g:Tb_MoreThanOne=1000
 function! CheckModified()
     if &modified
         if s:thisBufMod == 0
@@ -133,15 +133,19 @@ let g:airline_powerline_fonts = 0
 " unicode symbols
 let g:airline_symbols = {}
 if has("gui_running")
-    let g:airline_left_sep = '▶'
-    let g:airline_right_sep = '◀'
+    "let g:airline_left_sep = '▶'
+    let g:airline_left_sep = ''
+    let g:airline_left_alt_sep = ''
+    "let g:airline_right_sep = '◀'
+    let g:airline_right_sep = ''
+    let g:airline_right_alt_sep = ''
     let g:airline_symbols.linenr = '␊'
     let g:airline_symbols.branch = '⎇'
     "let g:airline_symbols.paste = 'ρ'
     "let g:airline_symbols.whitespace = 'Ξ'
 endif
 
-"let g:airline_theme=
+let g:airline_theme="luna"
 set showtabline=1
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -188,3 +192,10 @@ let g:hl_matchit_speed_level = 1 " or 2
 
 "" you can specify use hl_matchit filetype.
 "let g:hl_matchit_allow_ft = 'html,vim,sh' " blah..blah..
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => buffergator
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:buffergator_autoexpand_on_split = 0
+

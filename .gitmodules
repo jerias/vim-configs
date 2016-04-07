@@ -20,14 +20,23 @@
     path = plugins_git/vim-fugitive
     url = https://github.com/tpope/vim-fugitive.git
 [submodule "plugins_git/GlobalOptions"]
-	path = plugins_git/GlobalOptions
-	url = https://github.com/vim-scripts/GlobalOptions.git
-[submodule "plugins_git/vim-indent-guides"]
-	path = plugins_git/vim-indent-guides
-	url = https://github.com/nathanaelkane/vim-indent-guides.git
+    path = plugins_git/GlobalOptions
+    url = https://github.com/vim-scripts/GlobalOptions.git
 [submodule "plugins_git/verilog_systemverilog.vim"]
-	path = plugins_git/verilog_systemverilog.vim
-	url = https://github.com/vhda/verilog_systemverilog.vim
+    path = plugins_git/verilog_systemverilog.vim
+    url = https://github.com/vhda/verilog_systemverilog.vim
 [submodule "plugins_git/hl_matchit.vim"]
-	path = plugins_git/hl_matchit.vim
-	url = https://github.com/vimtaku/hl_matchit.vim.git
+    path = plugins_git/hl_matchit.vim
+    url = https://github.com/vimtaku/hl_matchit.vim.git
+[submodule "plugins_git/vim-buffergator"]
+    path = plugins_git/vim-buffergator
+    url = https://github.com/jerias/vim-buffergator.git
+[submodule "plugins_git/vim-airline-themes"]
+    path = plugins_git/vim-airline-themes
+    url = https://github.com/vim-airline/vim-airline-themes.git
+[submodule "plugins_git/vim-colors-solarized"]
+    path = plugins_git/vim-colors-solarized
+    url = https://github.com/altercation/vim-colors-solarized.git
+[submodule "plugins_git/vim-gitgutter"]
+    path = plugins_git/vim-gitgutter
+    url = https://github.com/airblade/vim-gitgutter.git

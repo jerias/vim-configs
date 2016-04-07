@@ -1,3 +1,4 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =1
-let g:netrw_dirhist_1='/net/nfs/atlantic/home/mit47879/.vim_runtime/sources_plugins/irblack/colors'
+let g:netrw_dirhist_cnt =2
+let g:netrw_dirhist_1='/home/mit47879/mywcps/cxb.dev/bitstreams/cxb_rev0/rtl'
+let g:netrw_dirhist_2='/home/mit47879/mywcps/cxb.dev/bitstreams/cxb_rev0/rtl/cxb_rev0_f0'

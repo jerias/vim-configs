@@ -11,9 +11,13 @@
 set background=dark
 
 if has("gui_running")
-    colorscheme ir_black_jpm
+    "colorscheme ir_black_jpm
+    "let g:solarized_termcolors=256
+    colorscheme solarized
 else
-    colorscheme ir_black_jpm
+    "colorscheme ir_black_jpm
+    let g:solarized_termcolors=256
+    colorscheme solarized
 endif
 
 " Set font according to system
