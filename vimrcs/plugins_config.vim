@@ -71,51 +71,16 @@ endfunction
 map <F4> :call TNERDTree()<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => TabBar
+" => Buffergator
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-map <F3> :TbToggle<CR>
-map <S-F3> :TbAup<CR>
-let g:Tb_SplitBelow=0
-let g:Tb_VSplit=1
-let g:Tb_MinSize=35
-let g:Tb_MaxSize=35
-let g:Tb_AutoUpdt = 1
-let g:Tb_UseSingleClick = 1
-let s:thisBufMod=0
-let g:Tb_MoreThanOne=1000
-function! CheckModified()
-    if &modified
-        if s:thisBufMod == 0
-            TbAup
-            let s:thisBufMod=1
-            "echo s:thisBufMod
-        endif
-    else
-        if s:thisBufMod == 1
-            TbAup
-            let s:thisBufMod=0
-            "echo s:thisBufMod
-        endif
-    endif
-endfunction
+let g:buffergator_autoexpand_on_split = 0
+let g:buffergator_sort_regime         = "filepath"
 
-autocmd BufWritePost        * TbAup
+map <F3> :BuffergatorToggle<CR>
+map <S-F3> :BuffergatorUpdate<CR>
 
-autocmd! InsertChange       * TbAup
-autocmd! InsertLeave        * TbAup
-autocmd! CursorHold         * TbAup
-autocmd! CursorHoldI        * TbAup
-autocmd! CursorMoved        * :call CheckModified()
-autocmd! CursorMovedI       * :call CheckModified()
-autocmd! StdinReadPost      * TbAup
-
-"autocmd! BufReadPre         * TbStop
-"autocmd! BufReadPost        * TbStart
-
-autocmd! VimEnter           * wincmd l
-autocmd! VimLeave           * TbStop
-
-autocmd! VimEnter           * :call GlobalOptions#SetWindowLocal('scrolloff', 7)
+" Stop buffer flyout from resizing other windows
+set noequalalways
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => surround.vim config
@@ -192,10 +157,4 @@ let g:hl_matchit_speed_level = 1 " or 2
 
 "" you can specify use hl_matchit filetype.
 "let g:hl_matchit_allow_ft = 'html,vim,sh' " blah..blah..
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => buffergator
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:buffergator_autoexpand_on_split = 0
 

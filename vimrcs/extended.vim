@@ -270,14 +270,8 @@ function! LoadSession()
         call GetSessionName()
     endif
 
-    let l:winNum = <SID>FindWindow('-TabBar-', 1)
-    TbStop
-
     execute "source ".s:sessionName
     let s:sessionloaded = 1
-    if l:winNum != -1
-        TbStart
-    endif
     echo "Loaded session:".s:sessionName
 endfunction
 
@@ -288,13 +282,7 @@ function! SaveSession()
         call GetSessionName()
     endif
 
-    " Close minibufexplorer
-    let l:winNum = <SID>FindWindow('-TabBar-', 1)
-    TbStop
     execute "mksession! ".s:sessionName
-    if l:winNum != -1
-        TbStart
-    endif
     echo "Saving session:".s:sessionName
 endfunction
 
