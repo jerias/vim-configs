@@ -23,13 +23,13 @@
     path = plugins_git/GlobalOptions
     url = https://github.com/vim-scripts/GlobalOptions.git
 [submodule "plugins_git/verilog_systemverilog.vim"]
-    path = plugins_git/verilog_systemverilog.vim
+	path = plugins_github_mine/verilog_systemverilog.vim
     url = https://github.com/vhda/verilog_systemverilog.vim
 [submodule "plugins_git/hl_matchit.vim"]
     path = plugins_git/hl_matchit.vim
     url = https://github.com/vimtaku/hl_matchit.vim.git
 [submodule "plugins_git/vim-buffergator"]
-    path = plugins_git/vim-buffergator
+	path = plugins_github_mine/vim-buffergator
     url = https://github.com/jerias/vim-buffergator.git
 [submodule "plugins_git/vim-airline-themes"]
     path = plugins_git/vim-airline-themes

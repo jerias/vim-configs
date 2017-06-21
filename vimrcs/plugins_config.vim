@@ -9,6 +9,7 @@ let g:hl_matchit_enable_on_vim_startup = 1
 """"""""""""""""""""""""""""""
 " => Load pathogen paths
 """"""""""""""""""""""""""""""
+call pathogen#infect('~/.vim/plugins_github_mine')
 call pathogen#infect('~/.vim/plugins_git')
 call pathogen#infect('~/.vim/plugins_nogit')
 call pathogen#helptags()
