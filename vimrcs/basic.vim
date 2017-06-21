@@ -258,6 +258,8 @@ set si "Smart indent
 set wrap "Wrap lines
 set linebreak
 
+set nosmartindent
+
 """"""""""""""""""""""""""""""
 " => Visual mode related
 """"""""""""""""""""""""""""""
