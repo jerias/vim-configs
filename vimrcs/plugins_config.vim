@@ -1,6 +1,4 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Important:
-"       This requries that you install https://github.com/amix/vimrc !
 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -41,13 +39,6 @@ let g:ctrlp_working_path_mode = 0
 
 let g:ctrlp_max_height = 20
 let g:ctrlp_custom_ignore = 'node_modules\|^\.DS_Store\|^\.git\|^\.coffee'
-
-
-""""""""""""""""""""""""""""""
-" => snipMate (beside <TAB> support <CTRL-j>)
-""""""""""""""""""""""""""""""
-ino <c-j> <c-r>=snipMate#TriggerSnippet()<cr>
-snor <c-j> <esc>i<right><c-r>=snipMate#TriggerSnippet()<cr>
 
 
 """"""""""""""""""""""""""""""
@@ -113,20 +104,6 @@ endif
 
 let g:airline_theme="luna"
 set showtabline=1
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Powerline
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"if has("gui_running")
-"    "let g:Powerline_symbols = 'unicode'
-"    let g:Powerline_symbols = 'fancy'
-"else
-""    let g:Powerline_symbols = 'unicode'
-"    let g:Powerline_symbols = 'compatible'
-"endif
-""    let g:Powerline_symbols = 'fancy'
-"
-"call Pl#Theme#RemoveSegment('fileencoding')
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Indent guide

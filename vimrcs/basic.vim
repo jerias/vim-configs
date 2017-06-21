@@ -1,26 +1,11 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Maintainer:
-"       Amir Salihefendic
-"       http://amix.dk - amix@amix.dk
+"       Jerias Mitchell
 "
-" Version:
-"       5.0 - 29/05/12 15:43:36
-"
-" Blog_post:
-"       http://amix.dk/blog/post/19691#The-ultimate-Vim-configuration-on-Github
-"
-" Awesome_version:
-"       Get this config, nice color schemes and lots of plugins!
-"
-"       Install the awesome version from:
-"
+" Credits:
+"       Heavily based on configurations from:
+"           Amir Salihefendic
 "           https://github.com/amix/vimrc
-"
-" Syntax_highlighted:
-"       http://amix.dk/vim/vimrc.html
-"
-" Raw_version:
-"       http://amix.dk/vim/vimrc.txt
 "
 " Sections:
 "    -> General
@@ -225,7 +210,7 @@ set backup
 let MRU_File = expand("$HOME/.vim/temp_dirs/vim_mru_files")
 
 " Tell vim to remember certain things when we exit
-"  '10  :  marks will be remembered for up to 10 previously edited files
+"  '20  :  marks will be remembered for up to 10 previously edited files
 "  "100 :  will save up to 100 lines for each register
 "  :20  :  up to 20 lines of command-line history will be remembered
 "  %    :  saves and restores the buffer list
