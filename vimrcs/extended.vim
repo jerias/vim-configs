@@ -413,4 +413,17 @@ if !exists(":DiffOrig")
 endif
 
 "--------------------------------------------------------------------------------
+" Toggle ignore whitespaces (VimDiff or GitGutter)
+function ToggleIgnoreWhite()
+    if g:gitgutter_diff_args =~ '-w'
+        let g:gitgutter_diff_args = ''
+        GitGutter
+        echo "-iwhite"
+    elseif g:gitgutter_diff_args !~ '-w'
+        let g:gitgutter_diff_args = '-w'
+        GitGutter
+        echo "+iwhite"
+    endif
+endfunction
+map <F6> :call ToggleIgnoreWhite()<CR>"
 

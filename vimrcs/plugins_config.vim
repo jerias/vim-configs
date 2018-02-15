@@ -2,6 +2,7 @@
 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+let g:verilog_disable_indent_lst = ['interface']
 let g:hl_matchit_enable_on_vim_startup = 1
 
 """"""""""""""""""""""""""""""

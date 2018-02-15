@@ -178,7 +178,8 @@ if has("gui_running")
         "set guifont=Input\ Mono\ Condensed\ 12
         "set guifont=Input\ 12
         "set guifont=Monaco\ 12
-        set guifont=Hack\ 12
+        "set guifont=Hack\ 12
+        set guifont=Fira\ Mono\ Medium\ 12
     endif
 
     set lines=60
