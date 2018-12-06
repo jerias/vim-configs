@@ -179,7 +179,7 @@ if has("gui_running")
         "set guifont=Input\ 12
         "set guifont=Monaco\ 12
         "set guifont=Hack\ 12
-        set guifont=Fira\ Mono\ Medium\ 12
+        set guifont=Fira\ Mono\ Medium\ 10
     endif
 
     set lines=60
@@ -346,7 +346,7 @@ nnoremap <silent> <M-p> vepbye
 " => Editing mappings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Remap VIM 0 to first non-blank character
-map 0 ^
+"map 0 ^
 
 " Move a line of text using ALT+[jk] or Comamnd+[jk] on mac
 nmap <M-j> mz:m+<cr>`z

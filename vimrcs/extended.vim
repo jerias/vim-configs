@@ -8,6 +8,10 @@
 set background=dark
 colorscheme solarized
 
+" My columns
+highlight ColorColumn guibg=#072632
+set colorcolumn=21,49,89
+
 " Disable scrollbars (real hackers don't use scrollbars for navigation!)
 set guioptions-=r
 set guioptions-=R
