@@ -222,9 +222,9 @@ endfunction
 "--------------------------------------------------------------------------------
 
 " Session management
-nmap <C-F10> <ESC>:call GetSessionName()<CR>
-nmap <C-F11> <ESC>:call LoadSession()<CR>
-nmap <C-F12> <ESC>:call SaveSession()<CR>
+nmap <F10> <ESC>:call GetSessionName()<CR>
+nmap <F11> <ESC>:call LoadSession()<CR>
+nmap <F12> <ESC>:call SaveSession()<CR>
 
 " don't store any options in sessions
 if version >= 700
@@ -280,61 +280,216 @@ autocmd VimLeave * call SaveSessionOnClose()
 
 let @z="_v48|c.lyeE50i pBd49|i(Ai)j"
 
+let g:moduleName = "dummy_inst"
 noremap <F9> :call FormatToInstanceLine()<CR>
 function! FormatToInstanceLine()
     " Has issues when wrap is enabled - temporarily disable if it's on
     let l:mywrap = &wrap
     setlocal nowrap
     let l:winview = winsaveview()
-    let curline=getline('.')
-    if curline=~"^ *input" || curline=~"^ *output" || curline=~"^ *inout" || curline=~"^ *lal_intf" || curline=~"^ *al_intf" || curline=~"^ *il_intf" || curline=~"^ *gen_clock_s" || curline=~"^ *interface"
-        "normal $
-        "let endchar=getline('.')[col('.')-1]
-        "if endchar == "," || endchar == ";"
+    let instCurLine=getline('.')
+    normal j
+    let instNextLine=getline('.')
+    normal k
 
-        if     curline =~ "/" && !(curline =~ "[,;].*/")
-            normal _f/Bd^i.lyeE50a pBd49|i(Ea)f/90i ld89|
-        elseif curline =~ "[,;].*/"
-            if      curline =~ ",.*/"
-                normal _f,xBd^i.lyeE50a pBd49|i(Ea)a,f/40i ld89|
-            elseif  curline =~ ";.*/"
-                normal _f;xBd^i.lyeE50a pBd49|i(Ea)a,f/40i ld89|
-            endif
-        elseif  curline =~ ","
-            normal _f,xBd^i.lyeE50a pBd49|i(Ea)a,
-        elseif  curline =~ ";"
-            normal _f;xBd^i.lyeE50a pBd49|i(Ea)a,
+    "--------------------------------------------------------------------------------
+    "--------------------------------------------------------------------------------
+    " Pure comment lines
+    if instCurLine =~ "^ */"
+        "----- Comment line - just ensure indentation
+        normal _d0i        
+
+    elseif instCurLine == ""
+        "----- Skip blank lines
+
+    elseif instCurLine =~ "^ *module"
+        "----- Store module name
+        let g:moduleName = split(instCurLine)[1]
+        " Remove any paranetheses (handle moving these below)
+        let g:moduleName = substitute(g:moduleName,"#(\\|(","","")
+        call setline('.', "    " . g:moduleName)
+        if instNextLine =~ "^ *("
+            exec "s/$/\r"
+            call setline('.', "    " . "u_" . g:moduleName)
+        endif
+        if instCurLine =~ "#( *$"
+            "----- Try to clean up parentheses on wrong lines
+            exec "s/$/\r"
+            call setline('.', "    #(")
+        elseif instCurLine =~ "( *$"
+            "----- Try to clean up parentheses on wrong lines
+            exec "s/$/\r"
+            call setline('.', "    (")
+        endif
+
+    elseif !(instCurLine =~ ",") && !(instCurLine =~ "\\.") && (instCurLine =~ "^ *[a-zA-Z0-9_]\\+ *$")
+        "----- If it's a bare word with no "." or ",", simple format assuming it's an already formatted  module name/instance
+        normal _d0i    
+
+    elseif instCurLine =~ "^ *#( *$"
+        "----- Just indent stand-alone "#("
+        call setline('.', substitute(instCurLine,"^ *","    ",""))
+
+    elseif instCurLine =~ "^ *#("
+        "----- Separate "#(" from rest of line
+        call setline('.', substitute(instCurLine,"^ *#(","",""))
+        normal k
+        exec "s/$/\r"
+        call setline('.', "    #(")
+
+    elseif instCurLine =~ "^ *( *$"
+        "----- Just indent stand-alone "("
+        call setline('.', substitute(instCurLine,"^ *","    ",""))
+
+    elseif instCurLine =~ "^ *("
+        "----- Separate "#(" from rest of line
+        call setline('.', substitute(instCurLine,"^ *(","",""))
+        normal k
+        exec "s/$/\r"
+        call setline('.', "    (")
+
+    elseif instCurLine =~ "^ *);"
+        "----- Just indent stand-alone ");"
+        call setline('.', substitute(instCurLine,"^ *","    ",""))
+
+    elseif instCurLine =~ "); *$"
+        "----- Separate "); from rest of line
+        call setline('.', substitute(instCurLine,");","",""))
+        exec "s/$/\r"
+        call setline('.', "    );")
+        normal k
+        call FormatToInstanceLine()
+
+    elseif instCurLine =~ "^ *)"
+        "----- Need to check two lines ahead
+        normal jj
+        let instNextNextLine=getline('.')
+        normal kk
+
+        if instNextNextLine =~ "^ *( *$"
+            "----- Just format
+            call setline('.', substitute(instCurLine,"^ *","    ",""))
         else
-            normal  $Bd^i.lyeE50a pBd49|i(Ea)
+            "----- Write module instance name below parameter ")"
+            call setline('.', substitute(instCurLine,"^ *","    ",""))
+            exec "s/$/\r"
+            call setline('.', "    " . "u_" . g:moduleName)
+            " Clear after use as instance
+            let g:moduleName = "dummy_inst"
+        endif
+
+    elseif (instCurLine =~ ") *$") && !(instNextLine =~ "^ *)") && !(instCurLine =~ "(")
+        "----- Separate ") from rest of line
+        call setline('.', substitute(instCurLine,")","",""))
+        exec "s/$/\r"
+        call setline('.', "    )")
+        normal k
+        call FormatToInstanceLine()
+
+    elseif instNextLine =~ "^ *#(" || instNextLine =~ "^ *("
+        "----- This should be the case were there is a bare word module or instance name
+        "----- above an open parentheses. - Do nothing
+
+    else
+        "--------------------------------------------------------------------------------
+        "--------------------------------------------------------------------------------
+        "----- Paramters and ports
+
+        "----- A few items are different for parameters
+        if instCurLine=~"^ *parameter"
+            let nameIndex = "1"
+        else
+            let nameIndex = "-1"
+        endif
+
+        "--------------------------------------------------------------------------------
+        "----- Capture endchar
+        let endChar = ""
+        if  instCurLine =~ ","
+            let endChar = ","
+        endif
+
+        "--------------------------------------------------------------------------------
+        "----- Capture sginal name and comments
+        let commentText = ""
+        let name        = ""
+        if instCurLine =~ "//"
+            let curlineSplit = split(instCurLine, "//")
+            let commentText = curlineSplit[-1]
+            let sigName = split(curlineSplit[0])[nameIndex]
+        elseif  instCurLine =~ "/\\*"
+            let curlineSplit = split(instCurLine, "/\\*")
+            let commentText = curlineSplit[-1]
+            let sigName = split(curlineSplit[0])[nameIndex]
+        else
+        "-----   " No comment
+            let sigName = split(instCurLine)[nameIndex]
         endif
 
 
-        "if curline =~ ","
-        "    normal _f,xBd^i.lyeE50a pBd49|i(Ea)a,
-        "elseif curline =~ ";"
-        "    normal _f;xBd^i.lyeE50a pBd49|i(Ea)a,
-        "elseif curline =~ "/"
-        "    normal _f/Bd^i.lyeE50a pBd49|i(Ea)a,
-        "else
-        "    normal  $Bd^i.lyeE50a pBd49|i(Ea)
-        "endif
-    elseif curline=~"^ *parameter"
-        if  curline =~ ","
-            normal _f,x_vwhc.Eld$BlyeE50a 49|
-            let char = getline('.')[col('.')-1]
-            if char == " "
-                normal $pBd49|i(Ea)a,
+        "----- Remove any residual commas (port names mainly)
+        let sigName = substitute(sigName,",","","")
+        "----- Remove any residual parentheses (for re-formatting)
+        let sigName = substitute(sigName,"(","","")
+        let sigName = substitute(sigName,")","","")
+
+        "----- This is the case of a reformat with bus delimiters "{}"
+        if instCurLine =~ "{"
+            let sigName = substitute(instCurLine,".*(\\({.*}\\)).*", "\\1", "")
+        endif
+
+
+        "----- Capture portname
+        if instCurLine =~ "^ *\\."
+            "----- If the line starts with ".", assume it's already translated and extract the portname
+            let portName = split(instCurLine)[0]
+            let portName = substitute(portName,"\\.","","")
+        else
+            let portName = sigName
+        endif
+
+        "----- Remove array delimeters from portname
+        let portName = substitute(portName,"\\[.*\\]","","")
+
+
+        "--------------------------------------------------------------------------------
+        " Now we need to assemble the portmap with appropiate spacings
+
+        " 1) Portname
+        let newLine = "        ." . portName
+        let newLineLen = strlen(newLine)
+
+        " 2) Signame
+        if newLineLen < 48
+            " Short
+            let paddingNum  = 48  - newLineLen
+            let padding     = repeat(" ", paddingNum)
+        else
+            " Too Long
+            let padding     = " "
+        endif
+        let newLine = newLine . padding . "(" . sigName . ")" . endChar
+        let newLineLen = strlen(newLine)
+
+        " 3) Comment
+        if !(commentText == "")
+            if newLineLen < 88
+                " Short
+                let paddingNum  = 88  - newLineLen
+                let padding     = repeat(" ", paddingNum)
             else
-                normal _eld$byeea (pa),
+                " Too Long
+                let padding     = " "
             endif
-        elseif  curline =~ ";"
-            normal _f;x_vwhc.Eld$BlyeE50a pBd49|i(Ea)a,
-        else
-            normal  _vwhc.Eld$BlyeE50a pBd49|i(Ea)
+            let newLine = newLine . padding . "//" . commentText
         endif
+
+        "----- Write out line
+        call setline('.', newLine)
+
     endif
     call winrestview(l:winview)
-    " Restore previous wrap setting
+    "----- Restore previous wrap setting
     if l:mywrap
         set wrap
     endif
@@ -344,7 +499,7 @@ noremap <C-F9> :call FormatToInstance()<CR>
 function! FormatToInstance()
     let l:winview = winsaveview()
     let curline=""
-    while  !(curline=~");")
+    while  !(curline=~"^ *);")
         let curline=getline('.')
         call FormatToInstanceLine()
         normal j
@@ -418,7 +573,7 @@ endif
 
 "--------------------------------------------------------------------------------
 " Toggle ignore whitespaces (VimDiff or GitGutter)
-function ToggleIgnoreWhite()
+function! ToggleIgnoreWhite()
     if g:gitgutter_diff_args =~ '-w'
         let g:gitgutter_diff_args = ''
         GitGutter
