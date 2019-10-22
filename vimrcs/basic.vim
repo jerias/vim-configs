@@ -22,8 +22,29 @@
 "    -> Misc
 "    -> Helper functions
 "
+"
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let vimdir=".vim"
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" https://stackoverflow.com/questions/6778961/alt-key-shortcuts-not-working-on-gnome-terminal-with-vim
+" There are two ways for a terminal emulator to send an Alt key (usually called a Meta key as actual terminals didn't have Alt). It can either send 8 bit characters and set the high bit when Alt is used, or it can use escape sequences, sending Alt-a as <Esc>a. Vim expects to see the 8 bit encoding rather than the escape sequence.
+" Some terminal emulators such as xterm can be set to use either mode, but Gnome terminal doesn't offer any such setting. To be honest in these days of Unicode editing, the 8-bit encoding is not such a good idea anyway. But escape sequences are not problem free either; they offer no way of distinguishing between <Esc>j meaning Alt-j vs pressing Esc followed by j.
+" In earlier terminal use, typing Escj was another way to send a Meta on a keyboard without a Meta key, but this doesn't fit well with vi's use of Esc to leave insert mode.
+"
+" The solution: It is possible to work around this by configuring vim to map the escape sequences to their Alt combinations.
+let c='a'
+while c <= 'z'
+  exec "set <A-".c.">=\e".c
+  exec "imap \e".c." <A-".c.">"
+  let c = nr2char(1+char2nr(c))
+endw
+
+set ttimeout ttimeoutlen=50
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General
@@ -138,6 +159,9 @@ runtime macros/matchit.vim
 " Map ctrl-q to macro @q for convinience
 noremap <C-q> @q
 
+" Force unix line endings
+" set fileformat=unix
+" set fileformats=unix,dos
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colors and Fonts
@@ -282,6 +306,9 @@ map <C-k> <C-W>k
 map <C-h> <C-W>h
 map <C-l> <C-W>l
 
+" Remap cr in normal mode to toggle between last window
+nnoremap <cr> <C-w>w
+
 " Close the current buffer
 map <leader>bd :Bclose<cr>
 
@@ -315,6 +342,7 @@ autocmd BufReadPost *
      \   exe "normal! g`\"" |
      \ endif
 
+
 " Stops resetting cursor to begining of line when saving or switching buffers
 set nostartofline
 
@@ -322,6 +350,13 @@ set nostartofline
 if has('mouse')
     set mouse=a
 endif
+
+" Fix issues in tmux
+if has("mouse_sgr")
+    set ttymouse=sgr
+else
+    set ttymouse=xterm2
+end
 
 """"""""""""""""""""""""""""""
 " => Status line

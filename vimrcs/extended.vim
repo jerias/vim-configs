@@ -241,9 +241,20 @@ function! LoadSession()
         call GetSessionName()
     endif
 
-    execute "source ".s:sessionName
-    let s:sessionloaded = 1
-    echo "Loaded session:".s:sessionName
+    if filereadable(s:sessionName)
+        execute "source ".s:sessionName
+        if bufexists(1)
+          for l in range(1, bufnr('$'))
+            if bufwinnr(l) == -1
+              exec 'sbuffer ' . l
+            endif
+          endfor
+        endif
+
+        let s:sessionloaded = 1
+        echo "Loaded session:".s:sessionName
+    endif
+
 endfunction
 
 function! SaveSession()
@@ -273,7 +284,20 @@ function! SaveSessionOnClose()
     call SaveSession()
 endfunction
 
+function! LoadSessionServerName()
+    if v:servername != ""
+
+        let s:sessionName = tolower($HOME."/.vim/temp_dirs/sessions/".v:servername)
+        if filereadable(s:sessionName)
+            call LoadSession()
+        endif
+    endif
+endfunction
+
+
 autocmd VimLeave * call SaveSessionOnClose()
+
+autocmd VimEnter * nested call LoadSessionServerName()
 
 "--------------------------------------------------------------------------------
 " Verilog stuff
@@ -495,7 +519,7 @@ function! FormatToInstanceLine()
     endif
 endfunction
 
-noremap <C-F9> :call FormatToInstance()<CR>
+noremap <C-9> :call FormatToInstance()<CR>
 function! FormatToInstance()
     let l:winview = winsaveview()
     let curline=""
