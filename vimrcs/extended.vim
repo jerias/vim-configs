@@ -519,7 +519,7 @@ function! FormatToInstanceLine()
     endif
 endfunction
 
-noremap <C-9> :call FormatToInstance()<CR>
+noremap <F8> :call FormatToInstance()<CR>
 function! FormatToInstance()
     let l:winview = winsaveview()
     let curline=""
@@ -531,7 +531,7 @@ function! FormatToInstance()
     call winrestview(l:winview)
 endfunction
 
-noremap <F8> :call FormatPortLine()<CR>
+" TODO: noremap <F8> :call FormatPortLine()<CR>
 function! FormatPortLine()
     let l:winview = winsaveview()
     let curline=getline('.')
