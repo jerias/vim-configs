@@ -28,20 +28,20 @@ let vimdir=".vim"
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" https://stackoverflow.com/questions/6778961/alt-key-shortcuts-not-working-on-gnome-terminal-with-vim
-" There are two ways for a terminal emulator to send an Alt key (usually called a Meta key as actual terminals didn't have Alt). It can either send 8 bit characters and set the high bit when Alt is used, or it can use escape sequences, sending Alt-a as <Esc>a. Vim expects to see the 8 bit encoding rather than the escape sequence.
-" Some terminal emulators such as xterm can be set to use either mode, but Gnome terminal doesn't offer any such setting. To be honest in these days of Unicode editing, the 8-bit encoding is not such a good idea anyway. But escape sequences are not problem free either; they offer no way of distinguishing between <Esc>j meaning Alt-j vs pressing Esc followed by j.
-" In earlier terminal use, typing Escj was another way to send a Meta on a keyboard without a Meta key, but this doesn't fit well with vi's use of Esc to leave insert mode.
-"
-" The solution: It is possible to work around this by configuring vim to map the escape sequences to their Alt combinations.
-let c='a'
-while c <= 'z'
-  exec "set <A-".c.">=\e".c
-  exec "imap \e".c." <A-".c.">"
-  let c = nr2char(1+char2nr(c))
-endw
-
-set ttimeout ttimeoutlen=50
+""" " https://stackoverflow.com/questions/6778961/alt-key-shortcuts-not-working-on-gnome-terminal-with-vim
+""" " There are two ways for a terminal emulator to send an Alt key (usually called a Meta key as actual terminals didn't have Alt). It can either send 8 bit characters and set the high bit when Alt is used, or it can use escape sequences, sending Alt-a as <Esc>a. Vim expects to see the 8 bit encoding rather than the escape sequence.
+""" " Some terminal emulators such as xterm can be set to use either mode, but Gnome terminal doesn't offer any such setting. To be honest in these days of Unicode editing, the 8-bit encoding is not such a good idea anyway. But escape sequences are not problem free either; they offer no way of distinguishing between <Esc>j meaning Alt-j vs pressing Esc followed by j.
+""" " In earlier terminal use, typing Escj was another way to send a Meta on a keyboard without a Meta key, but this doesn't fit well with vi's use of Esc to leave insert mode.
+""" "
+""" " The solution: It is possible to work around this by configuring vim to map the escape sequences to their Alt combinations.
+""" let c='a'
+""" while c <= 'z'
+"""   exec "set <A-".c.">=\e".c
+"""   exec "imap \e".c." <A-".c.">"
+"""   let c = nr2char(1+char2nr(c))
+""" endw
+"""
+""" set ttimeout ttimeoutlen=25
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -265,7 +265,7 @@ set tw=500
 
 set ai "Auto indent
 set si "Smart indent
-set wrap "Wrap lines
+set nowrap "don't Wrap lines
 set linebreak
 
 set nosmartindent
@@ -373,7 +373,7 @@ set laststatus=2
 nmap <C-i> i_<Esc>r
 
 " Select word - paste buffer - copy word back into buffer
-nnoremap <silent> <M-p> vepbye
+nnoremap <silent> <C-p> vepbye
 
 "nnoremap <F10> :set invhls<CR>:exec "let @/='\\<".expand("<cword>")."\\>'"<CR>/<BS>
 
