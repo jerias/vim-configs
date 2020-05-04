@@ -440,13 +440,19 @@ function! FormatToInstanceLine()
         if instCurLine =~ "//"
             let curlineSplit = split(instCurLine, "//")
             let commentText = curlineSplit[-1]
+            " If we are re-formatting and the open parenthesis directly follow the port name, add a space
+            let curlineSplit[0] = substitute(curlineSplit[0],"("," (","")
             let sigName = split(curlineSplit[0])[nameIndex]
         elseif  instCurLine =~ "/\\*"
             let curlineSplit = split(instCurLine, "/\\*")
             let commentText = curlineSplit[-1]
+            " If we are re-formatting and the open parenthesis directly follow the port name, add a space
+            let curlineSplit[0] = substitute(curlineSplit[0],"("," (","")
             let sigName = split(curlineSplit[0])[nameIndex]
         else
         "-----   " No comment
+            " If we are re-formatting and the open parenthesis directly follow the port name, add a space
+            let instCurLine = substitute(instCurLine,"("," (","")
             let sigName = split(instCurLine)[nameIndex]
         endif
 
@@ -466,6 +472,8 @@ function! FormatToInstanceLine()
         "----- Capture portname
         if instCurLine =~ "^ *\\."
             "----- If the line starts with ".", assume it's already translated and extract the portname
+            " If we are re-formatting and the open parenthesis directly follow the port name, add a space
+            let instCurLine = substitute(instCurLine,"("," (","")
             let portName = split(instCurLine)[0]
             let portName = substitute(portName,"\\.","","")
         else
