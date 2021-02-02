@@ -179,7 +179,7 @@ if &t_Co > 2 || has("gui_running")
     set guitablabel=%M\ %t
 endif
 
-set showtabline=1
+set showtabline=0
 
 " Set utf8 as standard encoding and en_US as the standard language
 set encoding=utf8
@@ -270,6 +270,9 @@ set linebreak
 
 set nosmartindent
 
+" Disable folding
+set nofoldenable
+
 """"""""""""""""""""""""""""""
 " => Visual mode related
 """"""""""""""""""""""""""""""
@@ -311,6 +314,9 @@ nnoremap <cr> <C-w>w
 
 " Close the current buffer
 map <leader>bd :Bclose<cr>
+
+" Close buffer without closing the split
+command! Bd b#|bd #
 
 " Close all the buffers
 map <leader>ba :1,1000 bd!<cr>

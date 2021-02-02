@@ -525,6 +525,9 @@ function! FormatToInstanceLine()
     if l:mywrap
         set wrap
     endif
+    "----- Fix indentation
+    "call indent('.')
+    normal ==
 endfunction
 
 noremap <F8> :call FormatToInstance()<CR>
