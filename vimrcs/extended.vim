@@ -285,7 +285,7 @@ function! SaveSessionOnClose()
 endfunction
 
 function! LoadSessionServerName()
-    if v:servername != ""
+    if v:servername != "" && v:servername != "GVIM"
 
         let s:sessionName = tolower($HOME."/.vim/temp_dirs/sessions/".v:servername)
         if filereadable(s:sessionName)
