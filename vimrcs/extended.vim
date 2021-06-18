@@ -143,6 +143,7 @@ autocmd! BufWrite           * call CleanUpThis()
 
 " Makefiles need tabs...
 autocmd! FileType           make setlocal noexpandtab
+autocmd! FileType           yaml setlocal ts=2 sts=2 sw=2 expandtab
 
 "--------------------------------------------------------------------------------
 " Set titlebar to something useful
