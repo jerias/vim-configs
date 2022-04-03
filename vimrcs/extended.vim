@@ -6,7 +6,9 @@
 " => GUI related
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set background=dark
-colorscheme solarized
+let base16colorspace=256
+"colorscheme solarized
+colorscheme base16-solarized-dark
 
 " My columns
 highlight ColorColumn guibg=#072632
