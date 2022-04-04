@@ -20,3 +20,6 @@ git submodule update --init --recursive
 
 To update to latest for all submodules:
 git submodule update --remote --merge
+
+If .gitmodules url and module remote is out of sync:
+git submodule sync --recursive
