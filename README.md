@@ -17,3 +17,6 @@ git clone --recurse-submodules $mainurl
 
 To update:
 git submodule update --init --recursive
+
+To update to latest for all submodules:
+git submodule update --remote --merge
