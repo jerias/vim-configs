@@ -3,8 +3,28 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => GUI related
+" => Colorscheme related
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let base16ScriptPath = expand("$HOME/.config/base16-shell/scripts/")
+if isdirectory(base16ScriptPath)
+    let g:base16_shell_path = base16ScriptPath
+endif
+
+function! s:base16_customize() abort
+    let current_scheme = get(g:, 'colors_name', 'default')
+    if current_scheme =~ 'base16'
+        call Base16hi("Search",        g:base16_gui0A, g:base16_gui01, g:base16_cterm0A, g:base16_cterm01,  "reverse", "")
+        call Base16hi("Search",        g:base16_gui0A, g:base16_gui01, g:base16_cterm0A, g:base16_cterm01,  "reverse", "")
+        call Base16hi("Constant",      g:base16_gui0B, "", g:base16_cterm0B, "", "", "")
+        call Base16hi("Deprecated",   "", "", "", "", "", "")
+    endif
+endfunction
+
+augroup on_change_colorschema
+  autocmd!
+  autocmd ColorScheme * call s:base16_customize()
+augroup END
+
 set background=dark
 if filereadable(expand("~/.vimrc_background"))
     let base16colorspace=256
@@ -17,6 +37,8 @@ endif
 highlight ColorColumn guibg=#072632
 set colorcolumn=21,49,89
 
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Disable scrollbars (real hackers don't use scrollbars for navigation!)
 set guioptions-=r
 set guioptions-=R
