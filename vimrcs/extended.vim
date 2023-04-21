@@ -16,6 +16,9 @@ function! s:base16_customize() abort
         call Base16hi("Search",        g:base16_gui0A, g:base16_gui01, g:base16_cterm0A, g:base16_cterm01,  "reverse", "")
         call Base16hi("Search",        g:base16_gui0A, g:base16_gui01, g:base16_cterm0A, g:base16_cterm01,  "reverse", "")
         call Base16hi("Constant",      g:base16_gui0B, "", g:base16_cterm0B, "", "", "")
+        call Base16hi("VertSplit",     g:base16_gui02, g:base16_gui02, g:base16_cterm02, g:base16_cterm02, "reverse", "")
+        call Base16hi("Cursor",        g:base16_gui03, g:base16_gui05, g:base16_cterm00, g:base16_cterm05, "inverse", "")
+        call Base16hi("LineNr",        g:base16_gui03, g:base16_gui01, g:base16_cterm03, g:base16_cterm01, "", "")
         call Base16hi("Deprecated",   "", "", "", "", "", "")
     endif
 endfunction
@@ -29,12 +32,16 @@ set background=dark
 if filereadable(expand("~/.vimrc_background"))
     let base16colorspace=256
     source ~/.vimrc_background
-else
-    colorscheme solarized
+elseif exists('$BASE16_THEME')
+      \ && (!exists('g:colors_name') || g:colors_name != 'base16-$BASE16_THEME')
+    let base16colorspace=256
+    colorscheme base16-$BASE16_THEME
+"else
+"    colorscheme solarized
 endif
 
 " My columns
-highlight ColorColumn guibg=#072632
+"highlight ColorColumn guibg=#072632
 set colorcolumn=21,49,89
 
 
@@ -255,9 +262,7 @@ nmap <F11> <ESC>:call LoadSession()<CR>
 nmap <F12> <ESC>:call SaveSession()<CR>
 
 " don't store any options in sessions
-if version >= 700
-    set sessionoptions=blank,buffers,curdir,tabpages,winpos,folds
-endif
+set sessionoptions=blank,buffers,curdir,tabpages,winpos,folds
 
 " automatically update session, if loaded
 let s:sessionloaded = 0
@@ -271,13 +276,6 @@ function! LoadSession()
 
     if filereadable(s:sessionName)
         execute "source ".s:sessionName
-        if bufexists(1)
-          for l in range(1, bufnr('$'))
-            if bufwinnr(l) == -1
-              exec 'sbuffer ' . l
-            endif
-          endfor
-        endif
 
         let s:sessionloaded = 1
         echo "Loaded session:".s:sessionName
