@@ -212,8 +212,8 @@ if has("gui_running")
     nnoremap <C-F1> :if &go=~#'m'<Bar>set go-=m<Bar>else<Bar>set go+=m<Bar>endif<CR>
     nnoremap <C-F2> :if &go=~#'T'<Bar>set go-=T<Bar>else<Bar>set go+=T<Bar>endif<CR>
     nnoremap <C-F3> :if &go=~#'r'<Bar>set go-=r<Bar>else<Bar>set go+=r<Bar>endif<CR>
-    :set guioptions-=m  "remove menu bar
-    :set guioptions-=T  "remove toolbar
+    ":set guioptions-=m  "remove menu bar
+    ":set guioptions-=T  "remove toolbar
     ":set guioptions-=r  "remove right-hand scroll bar
 
 
@@ -241,7 +241,11 @@ let MRU_File = expand("$HOME/.vim/temp_dirs/vim_mru_files")
 "  %    :  saves and restores the buffer list
 "  n... :  where to save the viminfo files
 "set viminfo='20,\"100,:20,%,n~/.vim/viminfo
-set viminfo='20,\"100,:20,n~/.vim/temp_dirs/viminfo
+if !has('nvim')
+    set viminfo='20,\"100,:20,n~/.vim/temp_dirs/viminfo
+else
+    set viminfo='20,\"100,:20,n~/.vim/temp_dirs/nviminfo
+endif
 " Remember info about open buffers on close
 "set viminfo^=%
 
@@ -358,11 +362,13 @@ if has('mouse')
 endif
 
 " Fix issues in tmux
-if has("mouse_sgr")
-    set ttymouse=sgr
-else
-    set ttymouse=xterm2
-end
+if !has('nvim')
+    if has("mouse_sgr")
+        set ttymouse=sgr
+    else
+        set ttymouse=xterm2
+    end
+endif
 
 """"""""""""""""""""""""""""""
 " => Status line
