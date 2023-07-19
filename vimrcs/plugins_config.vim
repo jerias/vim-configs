@@ -90,18 +90,18 @@ au FileType mako vmap Si S"i${ _(<esc>2f"a) }<esc>
 "let g:airline_powerline_fonts = 0
 "" unicode symbols
 "let g:airline_symbols = {}
-if has("multi_byte")
-"    "let g:airline_left_sep = '▶'
-    let g:airline_left_sep = ''
-"    let g:airline_left_alt_sep = ''
-"    "let g:airline_right_sep = '◀'
-    let g:airline_right_sep = ''
-"    let g:airline_right_alt_sep = ''
-"    let g:airline_symbols.linenr = '␊'
-"    let g:airline_symbols.branch = '⎇'
-"    "let g:airline_symbols.paste = 'ρ'
-"    "let g:airline_symbols.whitespace = 'Ξ'
-endif
+"if has("multi_byte")
+""    "let g:airline_left_sep = '▶'
+"    let g:airline_left_sep = ''
+""    let g:airline_left_alt_sep = ''
+""    "let g:airline_right_sep = '◀'
+"    let g:airline_right_sep = ''
+""    let g:airline_right_alt_sep = ''
+""    let g:airline_symbols.linenr = '␊'
+""    let g:airline_symbols.branch = '⎇'
+""    "let g:airline_symbols.paste = 'ρ'
+""    "let g:airline_symbols.whitespace = 'Ξ'
+"endif
 let g:airline_stl_path_style = 'short'
 "
 "let g:airline_theme="luna"
