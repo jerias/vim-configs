@@ -17,7 +17,7 @@ function! s:base16_customize() abort
         call Base16hi("Search",        g:base16_gui0A, g:base16_gui01, g:base16_cterm0A, g:base16_cterm01,  "reverse", "")
         call Base16hi("Constant",      g:base16_gui0B, "", g:base16_cterm0B, "", "", "")
         call Base16hi("Deprecated",   "", "", "", "", "", "")
-        if $TERM != 'tmux-256color'
+        if $TERM != 'tmux-256color' && $TERM != 'xterm-256color'
             call Base16hi("Comment",       g:base16_gui03, "", g:base16_cterm03, "",  "none", "")
         endif
     endif
