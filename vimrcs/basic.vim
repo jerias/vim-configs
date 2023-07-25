@@ -223,16 +223,26 @@ endif
 " => Files, backups and undo
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Backup dirs
-set dir=$HOME/.vim/temp_dirs/swp
-set backupdir=$HOME/.vim/temp_dirs/bkup
-set undodir=$HOME/.vim/temp_dirs/undodir
+if !has('nvim')
+    let tempDir=expand("$HOME/.vim/temp_dirs")
+else
+    let tempDir=expand("$HOME/.vim/temp_dirs_n")
+endif
+silent execute "!mkdir -p " . tempDir ."/swp"
+silent execute "!mkdir -p " . tempDir ."/bkup"
+silent execute "!mkdir -p " . tempDir ."/undodir"
+
+" vimscript doesn't allow using variable in set command...
+let &dir=g:tempDir . "/swp"
+let &backupdir=g:tempDir. "/bkup"
+let &undodir=g:tempDir. "/undodir"
 set undofile
 set undolevels=1000 "maximum number of changes that can be undone
 set undoreload=10000 "maximum number lines to save for undo on a buffer reload
 
 set backup
 
-let MRU_File = expand("$HOME/.vim/temp_dirs/vim_mru_files")
+let MRU_File = g:tempDir. "/vim_mru_files"
 
 " Tell vim to remember certain things when we exit
 "  '20  :  marks will be remembered for up to 10 previously edited files
@@ -241,11 +251,7 @@ let MRU_File = expand("$HOME/.vim/temp_dirs/vim_mru_files")
 "  %    :  saves and restores the buffer list
 "  n... :  where to save the viminfo files
 "set viminfo='20,\"100,:20,%,n~/.vim/viminfo
-if !has('nvim')
-    set viminfo='20,\"100,:20,n~/.vim/temp_dirs/viminfo
-else
-    set viminfo='20,\"100,:20,n~/.vim/temp_dirs/nviminfo
-endif
+let &viminfo="'20,\"100,:20,n" . g:tempDir . "/viminfo"
 " Remember info about open buffers on close
 "set viminfo^=%
 
