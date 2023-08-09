@@ -21,7 +21,7 @@
     url = https://github.com/vim-scripts/GlobalOptions.git
 [submodule "plugins_github_mine/verilog_systemverilog.vim"]
     path = plugins_github_mine/verilog_systemverilog.vim
-    url = https://github.com/jerias/verilog_systemverilog.vim
+    url = git@github.com:jerias/verilog_systemverilog.vim.git
 [submodule "plugins_git/hl_matchit.vim"]
     path = plugins_git/hl_matchit.vim
     url = https://github.com/vimtaku/hl_matchit.vim.git
@@ -38,5 +38,5 @@
     path = plugins_git/vim-gitgutter
     url = https://github.com/airblade/vim-gitgutter.git
 [submodule "plugins_git/base16-vim"]
-	path = plugins_git/base16-vim
-	url = https://github.com/fnune/base16-vim.git
+    path = plugins_git/base16-vim
+    url = https://github.com/fnune/base16-vim.git
