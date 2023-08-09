@@ -268,13 +268,14 @@ function! LoadSession()
 
     if filereadable(s:sessionName)
         execute "source ".s:sessionName
-        if bufexists(1)
-          for l in range(1, bufnr('$'))
-            if bufwinnr(l) == -1
-              exec 'sbuffer ' . l
-            endif
-          endfor
-        endif
+        " Why was this needed?  Seems to cause multiple splits to be created in some cases
+        "if bufexists(1)
+        "  for l in range(1, bufnr('$'))
+        "    if bufwinnr(l) == -1
+        "      exec 'sbuffer ' . l
+        "    endif
+        "  endfor
+        "endif
 
         let s:sessionloaded = 1
         echo "Loaded session:".s:sessionName
