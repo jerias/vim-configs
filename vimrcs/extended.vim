@@ -13,7 +13,7 @@ endif
 function! s:base16_customize() abort
     let current_scheme = get(g:, 'colors_name', 'default')
     if current_scheme =~ 'base16'
-        call Base16hi("Search",        g:base16_gui0A, g:base16_gui01, g:base16_cterm0A, g:base16_cterm01,  "reverse", "")
+        "call Base16hi("Search",        g:base16_gui0A, g:base16_gui01, g:base16_cterm0A, g:base16_cterm01,  "reverse", "")
         call Base16hi("MatchParen",    g:base16_gui0B, g:base16_gui01, g:base16_cterm0B, g:base16_cterm01,  "reverse", "")
         call Base16hi("Constant",      g:base16_gui0B, "", g:base16_cterm0B, "", "", "")
         call Base16hi("Deprecated",   "", "", "", "", "", "")
@@ -28,7 +28,10 @@ augroup on_change_colorschema
   autocmd ColorScheme * call s:base16_customize()
 augroup END
 
-if exists('$BASE16_THEME')
+if filereadable(expand("~/.vimrc_background"))
+    let base16colorspace=256
+    source ~/.vimrc_background
+elseif exists('$BASE16_THEME')
       \ && (!exists('g:colors_name') || g:colors_name != 'base16-$BASE16_THEME')
     let base16colorspace=256
     colorscheme base16-$BASE16_THEME
