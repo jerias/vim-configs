@@ -396,7 +396,7 @@ nmap <C-i> i_<Esc>r
 " This overrites the past buffer with the replaced word
 "nnoremap <silent> <C-p> cw<C-R>0<esc>
 " This keeps the paste buffer with the yanked word
-nnoremap <silent> <C-p> "_dwP
+nnoremap <silent> <C-p> "_deP
 
 "nnoremap <F10> :set invhls<CR>:exec "let @/='\\<".expand("<cword>")."\\>'"<CR>/<BS>
 
