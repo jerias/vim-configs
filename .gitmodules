@@ -30,7 +30,7 @@
     url = https://github.com/jerias/vim-buffergator.git
 [submodule "plugins_git/vim-airline-themes"]
     path = plugins_git/vim-airline-themes
-    url = https://github.com/vim-airline/vim-airline-themes.git
+    url = git@github.com:jerias/vim-airline-themes.git
 [submodule "plugins_git/vim-colors-solarized"]
     path = plugins_git/vim-colors-solarized
     url = https://github.com/altercation/vim-colors-solarized.git

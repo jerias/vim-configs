@@ -106,8 +106,11 @@ au FileType mako vmap Si S"i${ _(<esc>2f"a) }<esc>
 let g:airline_stl_path_style = 'short'
 "
 "let g:airline_theme="luna"
-let g:airline_theme="dark"
+"let g:airline_theme="dark"
+let g:airline_theme="lightjpm"
 set showtabline=0
+
+let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Indent guide
