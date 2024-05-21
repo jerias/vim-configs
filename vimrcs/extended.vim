@@ -452,7 +452,11 @@ function! FormatToInstanceLine()
 
         "----- A few items are different for parameters
         if instCurLine=~"^ *parameter"
-            let nameIndex = "1"
+            if instCurLine=~"integer"
+                let nameIndex = "2"
+            else
+                let nameIndex = "1"
+            endif
         else
             let nameIndex = "-1"
         endif
@@ -495,8 +499,9 @@ function! FormatToInstanceLine()
         let sigName = substitute(sigName,")","","")
 
         "----- This is the case of a reformat with bus delimiters "{}"
-        if instCurLine =~ "{"
-            let sigName = substitute(instCurLine,".*(\\({.*}\\)).*", "\\1", "")
+        if (instCurLine =~ "{") && !(instCurLine =~"^ *parameter")
+            let sigName = substitute(instCurLine,".*(\\(.*{.*}\\)).*", "\\1", "")
+            echo sigName
         endif
 
 
