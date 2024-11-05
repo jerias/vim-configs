@@ -395,8 +395,10 @@ nmap <C-i> i_<Esc>r
 
 " This overrites the past buffer with the replaced word
 "nnoremap <silent> <C-p> cw<C-R>0<esc>
-" This keeps the paste buffer with the yanked word
-nnoremap <silent> <C-p> "_deP
+" This keeps the paste buffer with the yanked word, the "_ is the black hole buffer
+"nnoremap <silent> <C-p> "_deP
+" This was to fix issue when pasting to a word at the end of a line
+nnoremap <silent> <C-p> "_ce <esc>Pl"_x
 
 "nnoremap <F10> :set invhls<CR>:exec "let @/='\\<".expand("<cword>")."\\>'"<CR>/<BS>
 
