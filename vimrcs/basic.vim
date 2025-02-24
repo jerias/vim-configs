@@ -320,7 +320,7 @@ map <C-h> <C-W>h
 map <C-l> <C-W>l
 
 " Remap cr in normal mode to toggle between last window
-nnoremap <cr> <C-w>w
+"nnoremap <cr> <C-w>w
 
 " Close the current buffer
 map <leader>bd :Bclose<cr>
