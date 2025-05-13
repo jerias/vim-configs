@@ -5,24 +5,39 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colorscheme related
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let base16ScriptPath = expand("$HOME/.config/base16-shell/scripts/")
-if isdirectory(base16ScriptPath)
-    let g:base16_shell_path = base16ScriptPath
-endif
+"let base16ScriptPath = expand("$HOME/.config/base16-shell/scripts/")
+"if isdirectory(base16ScriptPath)
+"    let g:base16_shell_path = base16ScriptPath
+"endif
+
+"""" function! s:base16_customize() abort
+""""     let current_scheme = get(g:, 'colors_name', 'default')
+""""     if current_scheme =~ 'base16'
+""""         call Base16hi("Search",        g:base16_gui0A, g:base16_gui01, g:base16_cterm0A, g:base16_cterm01,  "reverse", "")
+""""         call Base16hi("MatchParen",    g:base16_gui0B, g:base16_gui01, g:base16_cterm0B, g:base16_cterm01,  "reverse", "")
+""""         call Base16hi("Constant",      g:base16_gui0B, "", g:base16_cterm0B, "", "", "")
+""""         call Base16hi("Deprecated",   "", "", "", "", "", "")
+""""         if $TERM != 'tmux-256color' && $TERM != 'xterm-256color'
+""""             call Base16hi("Comment",       g:base16_gui03, "", g:base16_cterm03, "",  "none", "")
+""""         endif
+""""         "call Base16hi("CursorLine",   "", g:base16_gui08, "", g:base16_cterm08,  "none", "")
+""""         "call Base16hi("CursorColumn", "", g:base16_gui08, "", g:base16_cterm08,  "none", "")
+""""     endif
+"""" endfunction
 
 function! s:base16_customize() abort
-    let current_scheme = get(g:, 'colors_name', 'default')
-    if current_scheme =~ 'base16'
-        call Base16hi("Search",        g:base16_gui0A, g:base16_gui01, g:base16_cterm0A, g:base16_cterm01,  "reverse", "")
-        call Base16hi("MatchParen",    g:base16_gui0B, g:base16_gui01, g:base16_cterm0B, g:base16_cterm01,  "reverse", "")
-        call Base16hi("Constant",      g:base16_gui0B, "", g:base16_cterm0B, "", "", "")
-        call Base16hi("Deprecated",   "", "", "", "", "", "")
+    "let current_scheme = get(g:, 'colors_name', 'default')
+    "if current_scheme =~ 'base16'
+        call Tinted_Hi("Search",        g:tinted_gui0A, g:tinted_gui01, g:tinted_cterm0A, g:tinted_cterm01,  "reverse", "")
+        call Tinted_Hi("MatchParen",    g:tinted_gui0B, g:tinted_gui01, g:tinted_cterm0B, g:tinted_cterm01,  "reverse", "")
+        call Tinted_Hi("Constant",      g:tinted_gui0B, "", g:tinted_cterm0B, "", "", "")
+        call Tinted_Hi("Deprecated",   "", "", "", "", "", "")
         if $TERM != 'tmux-256color' && $TERM != 'xterm-256color'
-            call Base16hi("Comment",       g:base16_gui03, "", g:base16_cterm03, "",  "none", "")
+            call Tinted_Hi("Comment",       g:tinted_gui03, "", g:tinted_cterm03, "",  "none", "")
         endif
-        "call Base16hi("CursorLine",   "", g:base16_gui08, "", g:base16_cterm08,  "none", "")
-        "call Base16hi("CursorColumn", "", g:base16_gui08, "", g:base16_cterm08,  "none", "")
-    endif
+        "call Tinted_Hi("CursorLine",   "", g:tinted_gui08, "", g:tinted_cterm08,  "none", "")
+        "call Tinted_Hi("CursorColumn", "", g:tinted_gui08, "", g:tinted_cterm08,  "none", "")
+    "endif
 endfunction
 
 augroup on_change_colorschema
@@ -30,13 +45,36 @@ augroup on_change_colorschema
   autocmd ColorScheme * call s:base16_customize()
 augroup END
 
-if filereadable(expand("~/.vimrc_background"))
-    let base16colorspace=256
-    source ~/.vimrc_background
-elseif exists('$BASE16_THEME')
-      \ && (!exists('g:colors_name') || g:colors_name != 'base16-$BASE16_THEME')
-    let base16colorspace=256
-    colorscheme base16-$BASE16_THEME
+"""" if filereadable(expand("~/.vimrc_background"))
+""""     "let base16colorspace=256
+""""     let tinted_colorspace=256
+""""     source ~/.vimrc_background
+"""" elseif exists('$BASE16_THEME')
+""""       \ && (!exists('g:colors_name') || g:colors_name != 'base16-$BASE16_THEME')
+""""     "let base16colorspace=256
+""""     let tinted_colorspace=256
+""""     colorscheme base16-$BASE16_THEME
+"""" endif
+
+let theme_script_path = expand("~/.local/share/tinted-theming/tinty/base16-vim-colors-file.vim")
+
+function! FileExists(file_path)
+  return filereadable(a:file_path) == 1
+endfunction
+
+function! HandleFocusGained()
+  if FileExists(g:theme_script_path)
+    execute 'source ' . g:theme_script_path
+    call s:base16_customize()
+  endif
+endfunction
+
+if FileExists(theme_script_path)
+  "set termguicolors
+  let g:tinted_colorspace = 256
+  execute 'source ' . theme_script_path
+  call s:base16_customize()
+  autocmd FocusGained * call HandleFocusGained()
 endif
 
 "set background=dark

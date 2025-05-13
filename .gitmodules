@@ -40,3 +40,6 @@
 [submodule "plugins_git/base16-vim"]
     path = plugins_git/base16-vim
     url = https://github.com/fnune/base16-vim.git
+[submodule "plugins_git/tinted-vim"]
+	path = plugins_git/tinted-vim
+	url = https://github.com/tinted-theming/tinted-vim.git
