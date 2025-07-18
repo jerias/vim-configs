@@ -70,7 +70,8 @@ function! HandleFocusGained()
 endfunction
 
 if FileExists(theme_script_path)
-  "set termguicolors
+  " This was needed for konsole
+  set termguicolors
   let g:tinted_colorspace = 256
   execute 'source ' . theme_script_path
   call s:base16_customize()
