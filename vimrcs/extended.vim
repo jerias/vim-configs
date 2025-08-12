@@ -32,9 +32,7 @@ function! s:base16_customize() abort
         call Tinted_Hi("MatchParen",    g:tinted_gui0B, g:tinted_gui01, g:tinted_cterm0B, g:tinted_cterm01,  "reverse", "")
         call Tinted_Hi("Constant",      g:tinted_gui0B, "", g:tinted_cterm0B, "", "", "")
         call Tinted_Hi("Deprecated",   "", "", "", "", "", "")
-        if $TERM != 'tmux-256color' && $TERM != 'xterm-256color'
-            call Tinted_Hi("Comment",       g:tinted_gui03, "", g:tinted_cterm03, "",  "none", "")
-        endif
+        call Tinted_Hi("Comment",       g:tinted_gui04, "", g:tinted_cterm04, "",  "italic", "")
         "call Tinted_Hi("CursorLine",   "", g:tinted_gui08, "", g:tinted_cterm08,  "none", "")
         "call Tinted_Hi("CursorColumn", "", g:tinted_gui08, "", g:tinted_cterm08,  "none", "")
     "endif

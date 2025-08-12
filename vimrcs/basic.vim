@@ -319,8 +319,8 @@ map <C-k> <C-W>k
 map <C-h> <C-W>h
 map <C-l> <C-W>l
 
-" Remap cr in normal mode to toggle between last window
-"nnoremap <cr> <C-w>w
+" Remap Shift-tab in normal mode to toggle between last window
+nnoremap <S-tab> <C-w>w
 
 " Close the current buffer
 map <leader>bd :Bclose<cr>
@@ -492,6 +492,7 @@ endfunction
 
 function! VisualSelection(direction, extra_filter) range
     let l:saved_reg = @"
+    let l:saved_reg2 = @+
     execute "normal! vgvy"
 
     let l:pattern = escape(@", '\\/.*$^~[]')
@@ -509,6 +510,7 @@ function! VisualSelection(direction, extra_filter) range
 
     let @/ = l:pattern
     let @" = l:saved_reg
+    let @+ = l:saved_reg2
 endfunction
 
 
