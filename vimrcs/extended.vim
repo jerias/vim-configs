@@ -433,7 +433,7 @@ function! FormatToInstanceLine()
         "----- Just indent stand-alone "("
         call setline('.', substitute(instCurLine,"^ *","    ",""))
 
-    elseif instCurLine =~ "^ *("
+    elseif (instCurLine =~ "^ *(") && !(instCurLine =~ '^ *(\*.*\*)')
         "----- Separate "#(" from rest of line
         call setline('.', substitute(instCurLine,"^ *(","",""))
         normal k
@@ -478,7 +478,7 @@ function! FormatToInstanceLine()
         normal k
         call FormatToInstanceLine()
 
-    elseif instNextLine =~ "^ *#(" || instNextLine =~ "^ *("
+    elseif instNextLine =~ "^ *#(" || (instNextLine =~ "^ *("  && !(instNextLine =~ '^ *(\*.*\*)'))
         "----- This should be the case were there is a bare word module or instance name
         "----- above an open parentheses. - Do nothing
 
@@ -506,6 +506,13 @@ function! FormatToInstanceLine()
         endif
 
         "--------------------------------------------------------------------------------
+        "----- Remove any synthesis directives. E.G. (* io_buffer_type = "obuf" *)
+        "----- Just remove (\*.*\*)
+        if instCurLine =~ '^ *(\*.*\*)'
+            let instCurLine = substitute(instCurLine,'(\*.*\*)', "", "")
+        endif
+
+        "--------------------------------------------------------------------------------
         "----- Capture sginal name and comments
         let commentText = ""
         let name        = ""
@@ -528,7 +535,6 @@ function! FormatToInstanceLine()
             let sigName = split(instCurLine)[nameIndex]
         endif
 
-
         "----- Remove any residual commas (port names mainly)
         let sigName = substitute(sigName,",","","")
         "----- Remove any residual parentheses (for re-formatting)
@@ -538,9 +544,8 @@ function! FormatToInstanceLine()
         "----- This is the case of a reformat with bus delimiters "{}"
         if (instCurLine =~ "{") && !(instCurLine =~"^ *parameter")
             let sigName = substitute(instCurLine,".*(\\(.*{.*}\\)).*", "\\1", "")
-            echo sigName
+            "echo sigName
         endif
-
 
         "----- Capture portname
         if instCurLine =~ "^ *\\."
@@ -593,6 +598,7 @@ function! FormatToInstanceLine()
         call setline('.', newLine)
 
     endif
+
     call winrestview(l:winview)
     "----- Restore previous wrap setting
     if l:mywrap
