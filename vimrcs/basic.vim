@@ -399,6 +399,7 @@ nmap <C-i> i_<Esc>r
 "nnoremap <silent> <C-p> "_deP
 " This was to fix issue when pasting to a word at the end of a line
 nnoremap <silent> <C-p> "_ce <esc>Pl"_x
+vnoremap <silent> <C-p> "_c <esc>Pl"_x
 
 "nnoremap <F10> :set invhls<CR>:exec "let @/='\\<".expand("<cword>")."\\>'"<CR>/<BS>
 
