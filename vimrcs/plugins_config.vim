@@ -4,7 +4,6 @@
 
 "let g:verilog_disable_indent_lst = ['interface']
 let g:verilog_disable_indent_lst="eos,standalone,moduleports"
-let g:hl_matchit_enable_on_vim_startup = 1
 
 """"""""""""""""""""""""""""""
 " => Load pathogen paths
@@ -14,13 +13,6 @@ call pathogen#infect('~/.vim/plugins_github_mine')
 call pathogen#infect('~/.vim/plugins_nogit')
 call pathogen#infect('~/.local/share/tinted-theming/tinty/repos/base16-vim/')
 call pathogen#helptags()
-
-
-""""""""""""""""""""""""""""""
-" => MRU plugin
-""""""""""""""""""""""""""""""
-let MRU_Max_Entries = 400
-map <leader>f :MRU<CR>
 
 
 """"""""""""""""""""""""""""""
@@ -105,21 +97,3 @@ let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " goto instance top
 map <leader>u :VerilogGotoInstanceStart<CR>
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => hl_matchit
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"" If this variable is set, augroup is defined, and start highlighting.
-let g:hl_matchit_enable_on_vim_startup = 1
-
-"" you can specify highlight group. see :highlight
-let g:hl_matchit_hl_groupname = 'MatchParen'
-
-"" I recomend  g:hl_matchit_speed_level = 1 because highlight is
-"" just an addition.
-"" If 1 is set, sometimes do not highlight.
-let g:hl_matchit_speed_level = 1 " or 2
-
-"" you can specify use hl_matchit filetype.
-"let g:hl_matchit_allow_ft = 'html,vim,sh' " blah..blah..
-

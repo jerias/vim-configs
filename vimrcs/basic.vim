@@ -235,8 +235,6 @@ set undoreload=10000 "maximum number lines to save for undo on a buffer reload
 
 set backup
 
-let MRU_File = g:tempDir. "/vim_mru_files"
-
 " Tell vim to remember certain things when we exit
 "  '20  :  marks will be remembered for up to 10 previously edited files
 "  "100 :  will save up to 100 lines for each register
