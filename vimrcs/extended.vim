@@ -5,85 +5,39 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colorscheme related
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"let base16ScriptPath = expand("$HOME/.config/base16-shell/scripts/")
-"if isdirectory(base16ScriptPath)
-"    let g:base16_shell_path = base16ScriptPath
-"endif
-
-"""" function! s:base16_customize() abort
-""""     let current_scheme = get(g:, 'colors_name', 'default')
-""""     if current_scheme =~ 'base16'
-""""         call Base16hi("Search",        g:base16_gui0A, g:base16_gui01, g:base16_cterm0A, g:base16_cterm01,  "reverse", "")
-""""         call Base16hi("MatchParen",    g:base16_gui0B, g:base16_gui01, g:base16_cterm0B, g:base16_cterm01,  "reverse", "")
-""""         call Base16hi("Constant",      g:base16_gui0B, "", g:base16_cterm0B, "", "", "")
-""""         call Base16hi("Deprecated",   "", "", "", "", "", "")
-""""         if $TERM != 'tmux-256color' && $TERM != 'xterm-256color'
-""""             call Base16hi("Comment",       g:base16_gui03, "", g:base16_cterm03, "",  "none", "")
-""""         endif
-""""         "call Base16hi("CursorLine",   "", g:base16_gui08, "", g:base16_cterm08,  "none", "")
-""""         "call Base16hi("CursorColumn", "", g:base16_gui08, "", g:base16_cterm08,  "none", "")
-""""     endif
-"""" endfunction
-
 function! s:base16_customize() abort
-    "let current_scheme = get(g:, 'colors_name', 'default')
-    "if current_scheme =~ 'base16'
-        call Tinted_Hi("Search",        g:tinted_gui0A, g:tinted_gui01, g:tinted_cterm0A, g:tinted_cterm01,  "reverse", "")
-        call Tinted_Hi("MatchParen",    g:tinted_gui0B, g:tinted_gui01, g:tinted_cterm0B, g:tinted_cterm01,  "reverse", "")
-        call Tinted_Hi("Constant",      g:tinted_gui0B, "", g:tinted_cterm0B, "", "", "")
-        call Tinted_Hi("Deprecated",   "", "", "", "", "", "")
-        call Tinted_Hi("Comment",       g:tinted_gui04, "", g:tinted_cterm04, "",  "italic", "")
-        call Tinted_Hi("VertSplit",     g:tinted_gui0A, g:tinted_gui01, g:tinted_cterm0A, g:tinted_cterm01,  "", "")
-        "call Tinted_Hi("CursorLine",   "", g:tinted_gui08, "", g:tinted_cterm08,  "none", "")
-        "call Tinted_Hi("CursorColumn", "", g:tinted_gui08, "", g:tinted_cterm08,  "none", "")
-    "endif
+    call Tinted_Hi("Search",        g:tinted_gui0A, g:tinted_gui01, g:tinted_cterm0A, g:tinted_cterm01,  "reverse", "")
+    call Tinted_Hi("MatchParen",    g:tinted_gui0B, g:tinted_gui01, g:tinted_cterm0B, g:tinted_cterm01,  "reverse", "")
+    call Tinted_Hi("Constant",      g:tinted_gui0B, "", g:tinted_cterm0B, "", "", "")
+    call Tinted_Hi("Deprecated",   "", "", "", "", "", "")
+    call Tinted_Hi("Comment",       g:tinted_gui04, "", g:tinted_cterm04, "",  "italic", "")
+    call Tinted_Hi("VertSplit",     g:tinted_gui0A, g:tinted_gui01, g:tinted_cterm0A, g:tinted_cterm01,  "", "")
 endfunction
 
-augroup on_change_colorschema
-  autocmd!
-  autocmd ColorScheme * call s:base16_customize()
-augroup END
-
-"""" if filereadable(expand("~/.vimrc_background"))
-""""     "let base16colorspace=256
-""""     let tinted_colorspace=256
-""""     source ~/.vimrc_background
-"""" elseif exists('$BASE16_THEME')
-""""       \ && (!exists('g:colors_name') || g:colors_name != 'base16-$BASE16_THEME')
-""""     "let base16colorspace=256
-""""     let tinted_colorspace=256
-""""     colorscheme base16-$BASE16_THEME
-"""" endif
-
-let theme_script_path = expand("~/.local/share/tinted-theming/tinty/base16-vim-colors-file.vim")
-
-function! FileExists(file_path)
-  return filereadable(a:file_path) == 1
-endfunction
-
-function! HandleFocusGained()
-  if FileExists(g:theme_script_path)
-    execute 'source ' . g:theme_script_path
+function! s:handle_focus_gained() abort
+  let l:theme_script_path = expand("~/.local/share/tinted-theming/tinty/base16-vim-colors-file.vim")
+  if filereadable(l:theme_script_path)
+    execute 'source ' . l:theme_script_path
     call s:base16_customize()
   endif
 endfunction
 
-if FileExists(theme_script_path)
-  " This was needed for konsole
-  set termguicolors
-  let g:tinted_colorspace = 256
-  execute 'source ' . theme_script_path
-  call s:base16_customize()
-  autocmd FocusGained * call HandleFocusGained()
-endif
+augroup colorscheme_customization
+  autocmd!
+  autocmd ColorScheme * call s:base16_customize()
+  autocmd FocusGained * call s:handle_focus_gained()
+augroup END
 
-"set background=dark
-"if filereadable(expand("~/.vimrc_background"))
-"    let base16colorspace=256
-"    source ~/.vimrc_background
-"else
-"    colorscheme solarized
-"endif
+let s:theme_script_path = expand("~/.local/share/tinted-theming/tinty/base16-vim-colors-file.vim")
+if filereadable(s:theme_script_path)
+  " Enable true color support for modern terminals
+  if has('termguicolors')
+    set termguicolors
+  endif
+  let g:tinted_colorspace = 256
+  execute 'source ' . s:theme_script_path
+  call s:base16_customize()
+endif
 
 " My columns
 highlight ColorColumn guibg=#072632
@@ -110,7 +64,11 @@ map <M-H> zH
 " => Fast editing and reloading of vimrc configs
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 map <leader>e :e! ~/.vim/vimrcs/vimrc<cr>
-autocmd! bufwritepost vimrc source ~/.vim/vimrcs/vimrc
+
+augroup vimrc_reload
+  autocmd!
+  autocmd BufWritePost vimrc source ~/.vim/vimrcs/vimrc
+augroup END
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Command mode related
@@ -140,26 +98,6 @@ imap ½ $
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Parenthesis/bracket
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" vnoremap $1 <esc>`>a)<esc>`<i(<esc>
-" vnoremap $2 <esc>`>a]<esc>`<i[<esc>
-" vnoremap $3 <esc>`>a}<esc>`<i{<esc>
-" vnoremap $$ <esc>`>a"<esc>`<i"<esc>
-" vnoremap $q <esc>`>a'<esc>`<i'<esc>
-" vnoremap $e <esc>`>a"<esc>`<i"<esc>
-"
-" " Map auto complete of (, ", ', [
-" inoremap $1 ()<esc>i
-" inoremap $2 []<esc>i
-" inoremap $3 {}<esc>i
-" inoremap $4 {<esc>o}<esc>O
-" inoremap $q ''<esc>i
-" inoremap $e ""<esc>i
-" inoremap $t <><esc>i
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General abbreviations
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 iab xdate <c-r>=strftime("%d/%m/%y %H:%M:%S")<cr>
@@ -168,34 +106,34 @@ iab xdate <c-r>=strftime("%d/%m/%y %H:%M:%S")<cr>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Helper functions
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-func! DeleteTillSlash()
-    let g:cmd = getcmdline()
+function! DeleteTillSlash() abort
+    let l:cmd = getcmdline()
 
-    if has("win16") || has("win32")
-        let g:cmd_edited = substitute(g:cmd, "\\(.*\[\\\\]\\).*", "\\1", "")
+    if has("win32")
+        let l:cmd_edited = substitute(l:cmd, "\\(.*\[\\\\]\\).*", "\\1", "")
     else
-        let g:cmd_edited = substitute(g:cmd, "\\(.*\[/\]\\).*", "\\1", "")
+        let l:cmd_edited = substitute(l:cmd, "\\(.*\[/\]\\).*", "\\1", "")
     endif
 
-    if g:cmd == g:cmd_edited
-        if has("win16") || has("win32")
-            let g:cmd_edited = substitute(g:cmd, "\\(.*\[\\\\\]\\).*\[\\\\\]", "\\1", "")
+    if l:cmd == l:cmd_edited
+        if has("win32")
+            let l:cmd_edited = substitute(l:cmd, "\\(.*\[\\\\\]\\).*\[\\\\\]", "\\1", "")
         else
-            let g:cmd_edited = substitute(g:cmd, "\\(.*\[/\]\\).*/", "\\1", "")
+            let l:cmd_edited = substitute(l:cmd, "\\(.*\[/\]\\).*/", "\\1", "")
         endif
     endif
 
-    return g:cmd_edited
-endfunc
+    return l:cmd_edited
+endfunction
 
-func! CurrentFileDir(cmd)
+function! CurrentFileDir(cmd) abort
     return a:cmd . " " . expand("%:p:h") . "/"
-endfunc
+endfunction
 
 
 "--------------------------------------------------------------------------------
-" Clean up files - remove trailing white space - converte tabs to spaces, convert to UNIX newlines
-function! CleanUpThis()
+" Clean up files - remove trailing white space, convert tabs to spaces, convert to UNIX newlines
+function! CleanUpThis() abort
     exe "normal mz"
     setlocal ff=unix
     silent! %s/\r//g
@@ -206,35 +144,44 @@ function! CleanUpThis()
     exe "normal `z"
 endfunction
 
-autocmd! BufWrite           * call CleanUpThis()
+augroup file_cleanup
+    autocmd!
+    autocmd BufWrite * call CleanUpThis()
+augroup END
 
-" Makefiles need tabs...
-autocmd! FileType           make setlocal noexpandtab
-autocmd! FileType           yaml setlocal ts=2 sts=2 sw=2 expandtab
+" Filetype-specific settings
+augroup filetype_settings
+    autocmd!
+    autocmd FileType make setlocal noexpandtab
+    autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
+augroup END
 
 "--------------------------------------------------------------------------------
 " Set titlebar to something useful
 set titlelen=200
-function! SetWindowName()
-    let filename        =expand("%:t")
-    let filepath        =expand("%:p")
-    let mypwd           =expand("%:{getcwd()}")
-    let modified        ="%M"
+function! SetWindowName() abort
+    let l:filename        = expand("%:t")
+    let l:filepath        = expand("%:p")
+    let l:mypwd           = expand("%:{getcwd()}")
+    let l:modified        = "%M"
     " TODO: Fix this substitution
-    let viewname        =substitute(filepath, "\(mywcps\/\S*\)\/\.\*", "\1", 0)
-    let viewname        =substitute(viewname, "\.\*\/", "", 0)
-    if viewname == filename
-        let &titlestring    =modified . v:servername . " - " . filepath
+    let l:viewname        = substitute(l:filepath, "\(mywcps\/\S*\)\/\.\*", "\1", 0)
+    let l:viewname        = substitute(l:viewname, "\.\*\/", "", 0)
+    if l:viewname == l:filename
+        let &titlestring  = l:modified . v:servername . " - " . l:filepath
     else
-        let &titlestring    =modified . v:servername . " - <" . viewname . "> - " . filepath
+        let &titlestring  = l:modified . v:servername . " - <" . l:viewname . "> - " . l:filepath
     endif
 endfunction
 
-autocmd! BufEnter           * call SetWindowName()
+augroup window_title
+    autocmd!
+    autocmd BufEnter * call SetWindowName()
+augroup END
 
 "--------------------------------------------------------------------------------
 " Save current view settings on a per-window, per-buffer basis.
-function! AutoSaveWinView()
+function! AutoSaveWinView() abort
     if !exists("w:SavedBufView")
         let w:SavedBufView = {}
     endif
@@ -242,41 +189,41 @@ function! AutoSaveWinView()
 endfunction
 
 " Restore current view settings.
-function! AutoRestoreWinView()
-    let buf = bufnr("%")
-    if exists("w:SavedBufView") && has_key(w:SavedBufView, buf)
-        let v = winsaveview()
-        let atStartOfFile = v.lnum == 1 && v.col == 0
-        if atStartOfFile && !&diff
-            call winrestview(w:SavedBufView[buf])
+function! AutoRestoreWinView() abort
+    let l:buf = bufnr("%")
+    if exists("w:SavedBufView") && has_key(w:SavedBufView, l:buf)
+        let l:v = winsaveview()
+        let l:atStartOfFile = l:v.lnum == 1 && l:v.col == 0
+        if l:atStartOfFile && !&diff
+            call winrestview(w:SavedBufView[l:buf])
         endif
-        unlet w:SavedBufView[buf]
+        unlet w:SavedBufView[l:buf]
     endif
 endfunction
 
 " When switching buffers, preserve window view.
-if v:version >= 700
+augroup preserve_window_view
+    autocmd!
     autocmd BufLeave * call AutoSaveWinView()
     autocmd BufEnter * call AutoRestoreWinView()
-endif
+augroup END
 
 "--------------------------------------------------------------------------------
 " Git macros
-function! GitDiff()
+function! GitDiff() abort
     exe '!git diff % 2>&1'
 endfunction
 map <F5> :call GitDiff()<CR>
 
 "--------------------------------------------------------------------------------
-"add exec perms and execute the file
+" Add exec perms to current file
 nnoremap <silent> <F7> :!chmod +x %<CR>
 cnoremap <silent> <F7> <Esc>:!chmod +x %<CR>
 inoremap <silent> <F7> <Esc>:!chmod +x %<CR>a
 
 "--------------------------------------------------------------------------------
-function! <SID>FindWindow(bufName, doDebug)
-  " Try to find an existing window that contains
-  " our buffer.
+function! s:FindWindow(bufName, doDebug) abort
+  " Try to find an existing window that contains our buffer.
   let l:bufNum = bufnr(a:bufName)
   if l:bufNum != -1
     let l:winNum = bufwinnr(l:bufNum)
@@ -285,7 +232,6 @@ function! <SID>FindWindow(bufName, doDebug)
   endif
 
   return l:winNum
-
 endfunction
 "--------------------------------------------------------------------------------
 
@@ -294,15 +240,14 @@ nmap <F10> <ESC>:call GetSessionName()<CR>
 nmap <F11> <ESC>:call LoadSession()<CR>
 nmap <F12> <ESC>:call SaveSession()<CR>
 
-" don't store any options in sessions
-if version >= 700
-    set sessionoptions=blank,buffers,curdir,tabpages,winpos,folds
-endif
+" Don't store any options in sessions
+set sessionoptions=blank,buffers,curdir,tabpages,winpos,folds
 
-" automatically update session, if loaded
+" Session state variables
 let s:sessionloaded = 0
 let s:sessionName = ""
-function! LoadSession()
+
+function! LoadSession() abort
     echo "Loading Session..."
     if s:sessionName == ""
         echo "No session name set"
@@ -310,63 +255,53 @@ function! LoadSession()
     endif
 
     if filereadable(s:sessionName)
-        execute "source ".s:sessionName
-        " Why was this needed?  Seems to cause multiple splits to be created in some cases
-        "if bufexists(1)
-        "  for l in range(1, bufnr('$'))
-        "    if bufwinnr(l) == -1
-        "      exec 'sbuffer ' . l
-        "    endif
-        "  endfor
-        "endif
-
+        execute "source " . s:sessionName
         let s:sessionloaded = 1
-        echo "Loaded session:".s:sessionName
+        echo "Loaded session:" . s:sessionName
     endif
-
 endfunction
 
-function! SaveSession()
+function! SaveSession() abort
     echo "Saving Session..."
     if s:sessionName == ""
         echo "No session name set"
         call GetSessionName()
     endif
 
-    execute "mksession! ".s:sessionName
-    echo "Saving session:".s:sessionName
+    execute "mksession! " . s:sessionName
+    echo "Saving session:" . s:sessionName
 endfunction
 
-function! GetSessionName()
-    let curline = getline('.')
+function! GetSessionName() abort
+    let l:curline = getline('.')
     call inputsave()
     let s:sessionName = input('Enter Session Name: ')
     call inputrestore()
-    let s:sessionName = $HOME."/.vim/temp_dirs/sessions/".s:sessionName
-    echo "Session is :".s:sessionName
+    let s:sessionName = $HOME . "/.vim/temp_dirs/sessions/" . s:sessionName
+    echo "Session is :" . s:sessionName
 endfunction
 
-function! SaveSessionOnClose()
+function! SaveSessionOnClose() abort
     if s:sessionName == ""
-        let s:sessionName = $HOME."/.vim/temp_dirs/sessions/"."lastsession"
+        let s:sessionName = $HOME . "/.vim/temp_dirs/sessions/lastsession"
     endif
     call SaveSession()
 endfunction
 
-function! LoadSessionServerName()
+function! LoadSessionServerName() abort
     if v:servername != "" && v:servername != "GVIM"
-
-        let s:sessionName = tolower($HOME."/.vim/temp_dirs/sessions/".v:servername)
+        let s:sessionName = tolower($HOME . "/.vim/temp_dirs/sessions/" . v:servername)
         if filereadable(s:sessionName)
             call LoadSession()
         endif
     endif
 endfunction
 
-
-autocmd VimLeave * call SaveSessionOnClose()
-
-autocmd VimEnter * nested call LoadSessionServerName()
+augroup session_management
+    autocmd!
+    autocmd VimLeave * call SaveSessionOnClose()
+    autocmd VimEnter * nested call LoadSessionServerName()
+augroup END
 
 "--------------------------------------------------------------------------------
 " Verilog stuff
@@ -375,7 +310,7 @@ let @z="_v48|c.lyeE50i pBd49|i(Ai)j"
 
 let g:moduleName = "dummy_inst"
 noremap <F9> :call FormatToInstanceLine()<CR>
-function! FormatToInstanceLine()
+function! FormatToInstanceLine() abort
     " Has issues when wrap is enabled - temporarily disable if it's on
     let l:mywrap = &wrap
     setlocal nowrap
@@ -611,11 +546,11 @@ function! FormatToInstanceLine()
 endfunction
 
 noremap <F8> :call FormatToInstance()<CR>
-function! FormatToInstance()
+function! FormatToInstance() abort
     let l:winview = winsaveview()
-    let curline=""
-    while  !(curline=~"^ *);")
-        let curline=getline('.')
+    let l:curline = ""
+    while !(l:curline =~ "^ *);")
+        let l:curline = getline('.')
         call FormatToInstanceLine()
         normal j
     endwhile
@@ -623,10 +558,10 @@ function! FormatToInstance()
 endfunction
 
 " TODO: noremap <F8> :call FormatPortLine()<CR>
-function! FormatPortLine()
+function! FormatPortLine() abort
     let l:winview = winsaveview()
-    let curline=getline('.')
-    if curline=~"^ *input" || curline=~"^ *output" || curline=~"^ *inout"
+    let l:curline = getline('.')
+    if l:curline =~ "^ *input" || l:curline =~ "^ *output" || l:curline =~ "^ *inout"
         "normal $
         "let endchar=getline('.')[col('.')-1]
         "if endchar == "," || endchar == ";"
@@ -657,7 +592,7 @@ endfunction
 
 "--------------------------------------------------------------------------------
 " Rename file and make appropriate buffer changes
-function! s:rename_file(new_file_path)
+function! s:rename_file(new_file_path) abort
   execute 'saveas ' . a:new_file_path
   call delete(expand('#:p'))
   bd #
@@ -667,11 +602,11 @@ command! -nargs=1 -complete=file Rename call <SID>rename_file(<f-args>)
 
 "--------------------------------------------------------------------------------
 " Auto increment numbers
-function! Incr()
-    let a = line('.') - line("'<")
-    let c = virtcol("'<")
-    if a > 0
-        execute 'normal! '.c.'|'.a."\<C-a>"
+function! Incr() abort
+    let l:a = line('.') - line("'<")
+    let l:c = virtcol("'<")
+    if l:a > 0
+        execute 'normal! ' . l:c . '|' . l:a . "\<C-a>"
     endif
     normal `<
 endfunction
@@ -688,7 +623,7 @@ endif
 
 "--------------------------------------------------------------------------------
 " Toggle ignore whitespaces (VimDiff or GitGutter)
-function! ToggleIgnoreWhite()
+function! ToggleIgnoreWhite() abort
     if g:gitgutter_diff_args =~ '-w'
         let g:gitgutter_diff_args = ''
         GitGutter

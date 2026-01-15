@@ -23,28 +23,6 @@ let MRU_Max_Entries = 400
 map <leader>f :MRU<CR>
 
 
-"" """"""""""""""""""""""""""""""
-"" " => YankRing
-"" """"""""""""""""""""""""""""""
-"" if has("win16") || has("win32")
-""     " Don't do anything
-"" else
-""     let g:yankring_history_dir = '~/.vim/temp_dirs/'
-"" endif
-
-
-""""""""""""""""""""""""""""""
-" => CTRL-P
-""""""""""""""""""""""""""""""
-let g:ctrlp_working_path_mode = 0
-
-"" let g:ctrlp_map = '<c-f>'
-"" map <c-b> :CtrlPBuffer<cr>
-
-let g:ctrlp_max_height = 20
-let g:ctrlp_custom_ignore = 'node_modules\|^\.DS_Store\|^\.git\|^\.coffee'
-
-
 """"""""""""""""""""""""""""""
 " => Vim grep
 """"""""""""""""""""""""""""""

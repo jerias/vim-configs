@@ -49,10 +49,6 @@ let vimdir=".vim"
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Use Vim settings, rather then Vi settings (much better!).
-" This must be first, because it changes other options as a side effect.
-set nocompatible
-
 " Sets how many lines of history VIM has to remember
 set history=700
 
@@ -86,7 +82,7 @@ set wildmode=longest:full,full
 
 " Ignore compiled files
 set wildignore=*.o,*~,*.pyc
-if has("win16") || has("win32")
+if has("win32")
     set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
 else
     set wildignore+=.git\*,.hg\*,.svn\*
@@ -153,10 +149,7 @@ inoremap <C-U> <C-G>u<C-U>
 " Clipboard
 set clipboard=unnamedplus,unnamed
 
-" Enable matchit
-runtime macros/matchit.vim
-
-" Map ctrl-q to macro @q for convinience
+" Map ctrl-q to macro @q for convenience
 noremap <C-q> @q
 
 " Force unix line endings
@@ -193,7 +186,7 @@ set cursorline
 set cursorline cursorcolumn
 
 if has("gui_running")
-    if has("win16") || has("win32") || has("win64")
+    if has("win32") || has("win64")
         set guifont=Courier_New:h11
     elseif $USER == "root"
         set guifont=Monospace\ 12
@@ -362,18 +355,14 @@ autocmd BufReadPost *
 " Stops resetting cursor to begining of line when saving or switching buffers
 set nostartofline
 
-" Enable mouse mode in console
+" Enable mouse mode
 if has('mouse')
     set mouse=a
 endif
 
-" Fix issues in tmux
-if !has('nvim')
-    if has("mouse_sgr")
-        set ttymouse=sgr
-    else
-        set ttymouse=xterm2
-    end
+" Modern Vim (8+) has sgr mouse support by default
+if !has('nvim') && !has('gui_running')
+    set ttymouse=sgr
 endif
 
 """"""""""""""""""""""""""""""
@@ -387,8 +376,8 @@ set laststatus=2
 "set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ %l/%L,%c%V
 "set statusline=\ %m%r%{HasPaste()}%F%h\ %w\ %=[%{&ff}]\ %04l/%04L,%03c
 
-"Maps control-i to single caracter insertion
-nmap <C-i> i_<Esc>r
+" NOTE: <C-i> conflicts with Tab in terminal Vim, so removed the mapping
+" If you need single character insertion, use: i<char><Esc>
 
 " Select word - paste buffer - copy word back into buffer
 " https://unix.stackexchange.com/questions/88714/how-can-i-do-a-change-word-in-vim-using-the-current-paste-buffer
@@ -485,13 +474,13 @@ map <leader>pp :setlocal paste!<cr>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Helper functions
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-function! CmdLine(str)
+function! CmdLine(str) abort
     exe "menu Foo.Bar :" . a:str
     emenu Foo.Bar
     unmenu Foo
 endfunction
 
-function! VisualSelection(direction, extra_filter) range
+function! VisualSelection(direction, extra_filter) range abort
     let l:saved_reg = @"
     let l:saved_reg2 = @+
     execute "normal! vgvy"
@@ -516,7 +505,7 @@ endfunction
 
 
 " Returns true if paste mode is enabled
-function! HasPaste()
+function! HasPaste() abort
     if &paste
         return 'PASTE MODE  '
     en
@@ -525,7 +514,7 @@ endfunction
 
 " Don't close window, when deleting a buffer
 command! Bclose call <SID>BufcloseCloseIt()
-function! <SID>BufcloseCloseIt()
+function! <SID>BufcloseCloseIt() abort
    let l:currentBufNum = bufnr("%")
    let l:alternateBufNum = bufnr("#")
 
