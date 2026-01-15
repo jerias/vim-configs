@@ -6,16 +6,6 @@
 let g:verilog_disable_indent_lst="eos,standalone,moduleports"
 
 """"""""""""""""""""""""""""""
-" => Load pathogen paths
-""""""""""""""""""""""""""""""
-call pathogen#infect('~/.vim/plugins_git')
-call pathogen#infect('~/.vim/plugins_github_mine')
-call pathogen#infect('~/.vim/plugins_nogit')
-call pathogen#infect('~/.local/share/tinted-theming/tinty/repos/base16-vim/')
-call pathogen#helptags()
-
-
-""""""""""""""""""""""""""""""
 " => Vim grep
 """"""""""""""""""""""""""""""
 let Grep_Skip_Dirs = 'RCS CVS SCCS .svn generated'

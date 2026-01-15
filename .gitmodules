@@ -1,27 +1,27 @@
-[submodule "plugins_git/nerdtree"]
-    path = plugins_git/nerdtree
+[submodule "pack/git/start/nerdtree"]
+    path = pack/git/start/nerdtree
     url = https://github.com/scrooloose/nerdtree.git
-[submodule "plugins_git/vim-surround"]
-    path = plugins_git/vim-surround
+[submodule "pack/git/start/vim-surround"]
+    path = pack/git/start/vim-surround
     url = https://github.com/tpope/vim-surround.git
-[submodule "plugins_git/tabular"]
-    path = plugins_git/tabular
+[submodule "pack/git/start/tabular"]
+    path = pack/git/start/tabular
     url = https://github.com/godlygeek/tabular.git
-[submodule "plugins_git/vim-airline"]
-    path = plugins_git/vim-airline
+[submodule "pack/git/start/vim-airline"]
+    path = pack/git/start/vim-airline
     url = https://github.com/bling/vim-airline.git
-[submodule "plugins_git/vim-airline-themes"]
-    path = plugins_git/vim-airline-themes
-    url = git@github.com:jerias/vim-airline-themes.git
-[submodule "plugins_github_mine/verilog_systemverilog.vim"]
-    path = plugins_github_mine/verilog_systemverilog.vim
-    url = git@github.com:jerias/verilog_systemverilog.vim.git
-[submodule "plugins_git/vim-buffergator"]
-    path = plugins_github_mine/vim-buffergator
+[submodule "pack/git/start/vim-airline-themes"]
+    path = pack/git/start/vim-airline-themes
+    url = https://github.com/jerias/vim-airline-themes.git
+[submodule "pack/mine/start/verilog_systemverilog.vim"]
+    path = pack/mine/start/verilog_systemverilog.vim
+    url = https://github.com/jerias/verilog_systemverilog.vim.git
+[submodule "pack/mine/start/vim-buffergator"]
+    path = pack/mine/start/vim-buffergator
     url = https://github.com/jerias/vim-buffergator.git
-[submodule "plugins_git/vim-gitgutter"]
-    path = plugins_git/vim-gitgutter
+[submodule "pack/git/start/vim-gitgutter"]
+    path = pack/git/start/vim-gitgutter
     url = https://github.com/airblade/vim-gitgutter.git
-[submodule "plugins_git/tinted-vim"]
-    path = plugins_git/tinted-vim
+[submodule "pack/git/start/tinted-vim"]
+    path = pack/git/start/tinted-vim
     url = https://github.com/tinted-theming/tinted-vim.git
