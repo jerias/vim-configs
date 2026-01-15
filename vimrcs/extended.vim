@@ -33,6 +33,7 @@ function! s:base16_customize() abort
         call Tinted_Hi("Constant",      g:tinted_gui0B, "", g:tinted_cterm0B, "", "", "")
         call Tinted_Hi("Deprecated",   "", "", "", "", "", "")
         call Tinted_Hi("Comment",       g:tinted_gui04, "", g:tinted_cterm04, "",  "italic", "")
+        call Tinted_Hi("VertSplit",     g:tinted_gui0A, g:tinted_gui01, g:tinted_cterm0A, g:tinted_cterm01,  "", "")
         "call Tinted_Hi("CursorLine",   "", g:tinted_gui08, "", g:tinted_cterm08,  "none", "")
         "call Tinted_Hi("CursorColumn", "", g:tinted_gui08, "", g:tinted_cterm08,  "none", "")
     "endif
