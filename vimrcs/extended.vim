@@ -156,6 +156,11 @@ augroup filetype_settings
     autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 augroup END
 
+augroup filetypedetectOverride
+  autocmd!
+  autocmd BufNewFile,BufRead *.v,*.vh,*.vp,*.sv,*.svi,*.svh,*.svp,*.sva setfiletype verilog_systemverilog
+augroup END
+
 "--------------------------------------------------------------------------------
 " Set titlebar to something useful
 set titlelen=200

@@ -53,6 +53,7 @@ let vimdir=".vim"
 set history=700
 
 " Enable filetype plugins
+filetype on
 filetype plugin on
 filetype indent on
 
