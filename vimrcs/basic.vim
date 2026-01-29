@@ -170,7 +170,7 @@ if &t_Co > 2 || has("gui_running")
     set guioptions-=T
     set guioptions-=e
     set t_Co=256
-    set guitablabel=%M\ %t
+    "set guitablabel=%M\ %t
 endif
 
 set showtabline=0

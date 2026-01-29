@@ -295,7 +295,12 @@ endfunction
 
 function! LoadSessionServerName() abort
     if v:servername != "" && v:servername != "GVIM"
-        let s:sessionName = tolower($HOME . "/.vim/temp_dirs/sessions/" . v:servername)
+        if v:servername =~ "sock"
+            let l:myServerName = fnamemodify(v:servername, ":t:r")
+        else
+            let l:myServerName = v:servername
+        endif
+        let s:sessionName = tolower($HOME . "/.vim/temp_dirs/sessions/" . l:myServerName)
         if filereadable(s:sessionName)
             call LoadSession()
         endif
