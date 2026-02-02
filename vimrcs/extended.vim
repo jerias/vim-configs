@@ -7,7 +7,7 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 function! s:base16_customize() abort
     call Tinted_Hi("Search",        g:tinted_gui0A, g:tinted_gui01, g:tinted_cterm0A, g:tinted_cterm01,  "reverse", "")
-    call Tinted_Hi("MatchParen",    g:tinted_gui0B, g:tinted_gui01, g:tinted_cterm0B, g:tinted_cterm01,  "reverse", "")
+    call Tinted_Hi("MatchParen",    g:tinted_gui0B, g:tinted_gui01, g:tinted_cterm0B, g:tinted_cterm01,  "bold", "")
     call Tinted_Hi("Constant",      g:tinted_gui0B, "", g:tinted_cterm0B, "", "", "")
     call Tinted_Hi("Deprecated",   "", "", "", "", "", "")
     call Tinted_Hi("Comment",       g:tinted_gui04, "", g:tinted_cterm04, "",  "italic", "")
