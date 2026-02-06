@@ -15,7 +15,7 @@ function! s:base16_customize() abort
 endfunction
 
 function! s:handle_focus_gained() abort
-  let l:theme_script_path = expand("~/.local/share/tinted-theming/tinty/tinted-vim-colors-file.vim")
+  let l:theme_script_path = expand("~/.local/share/tinted-theming/tinty/artifacts/tinted-vim-colors-file.vim")
   if filereadable(l:theme_script_path)
     execute 'source ' . l:theme_script_path
     call s:base16_customize()
@@ -28,7 +28,7 @@ augroup colorscheme_customization
   autocmd FocusGained * call s:handle_focus_gained()
 augroup END
 
-let s:theme_script_path = expand("~/.local/share/tinted-theming/tinty/tinted-vim-colors-file.vim")
+let s:theme_script_path = expand("~/.local/share/tinted-theming/tinty/artifacts/tinted-vim-colors-file.vim")
 if filereadable(s:theme_script_path)
   " Enable true color support for modern terminals
   if has('termguicolors')
