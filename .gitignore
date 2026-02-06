@@ -1,0 +1,5 @@
+# vim-plug plugin directory
+plugged/
+
+# vim-plug lock file (if used)
+plug.lock
