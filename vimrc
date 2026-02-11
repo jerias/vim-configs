@@ -17,6 +17,9 @@ Plug 'jerias/vim-buffergator'
 
 call plug#end()
 
+" Load matchit plugin for % matching (required by verilog plugin)
+runtime macros/matchit.vim
+
 " Source configuration files
 source ~/.vim/vimrcs/basic.vim
 source ~/.vim/vimrcs/plugins_config.vim
