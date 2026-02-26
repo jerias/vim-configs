@@ -340,6 +340,9 @@ function! FormatToInstanceLine() abort
     elseif instCurLine == ""
         "----- Skip blank lines
 
+    elseif instCurLine =~ "^ *`"
+        "----- Preprocessor directive (`ifdef, `ifndef, `else, `endif, etc.) - preserve content, indentation handled by ==
+
     elseif instCurLine =~ "^ *module"
         "----- Store module name
         let g:moduleName = split(instCurLine)[1]
@@ -347,17 +350,16 @@ function! FormatToInstanceLine() abort
         let g:moduleName = substitute(g:moduleName,"#(\\|(","","")
         call setline('.', "    " . g:moduleName)
         if instNextLine =~ "^ *("
-            exec "s/$/\r"
-            call setline('.', "    " . "u_" . g:moduleName)
+            call append(line('.'), "    " . "u_" . g:moduleName)
         endif
         if instCurLine =~ "#( *$"
             "----- Try to clean up parentheses on wrong lines
-            exec "s/$/\r"
-            call setline('.', "    #(")
+            call append(line('.'), "    #(")
         elseif instCurLine =~ "( *$"
-            "----- Try to clean up parentheses on wrong lines
-            exec "s/$/\r"
-            call setline('.', "    (")
+            "----- Non-parametric module with paren on same line - insert instance name then "("
+            call append(line('.'),     "    " . "u_" . g:moduleName)
+            call append(line('.') + 1, "    (")
+            let g:moduleName = "dummy_inst"
         endif
 
     elseif !(instCurLine =~ ",") && !(instCurLine =~ "\\.") && (instCurLine =~ "^ *[a-zA-Z0-9_]\\+ *$")
@@ -372,19 +374,17 @@ function! FormatToInstanceLine() abort
         "----- Separate "#(" from rest of line
         call setline('.', substitute(instCurLine,"^ *#(","",""))
         normal k
-        exec "s/$/\r"
-        call setline('.', "    #(")
+        call append(line('.'), "    #(")
 
     elseif instCurLine =~ "^ *( *$"
         "----- Just indent stand-alone "("
         call setline('.', substitute(instCurLine,"^ *","    ",""))
 
     elseif (instCurLine =~ "^ *(") && !(instCurLine =~ '^ *(\*.*\*)')
-        "----- Separate "#(" from rest of line
+        "----- Separate "(" from rest of line
         call setline('.', substitute(instCurLine,"^ *(","",""))
         normal k
-        exec "s/$/\r"
-        call setline('.', "    (")
+        call append(line('.'), "    (")
 
     elseif instCurLine =~ "^ *);"
         "----- Just indent stand-alone ");"
@@ -393,35 +393,61 @@ function! FormatToInstanceLine() abort
     elseif instCurLine =~ "); *$"
         "----- Separate "); from rest of line
         call setline('.', substitute(instCurLine,");","",""))
-        exec "s/$/\r"
-        call setline('.', "    );")
-        normal k
+        call append(line('.'), "    );")
         call FormatToInstanceLine()
 
-    elseif instCurLine =~ "^ *)"
-        "----- Need to check two lines ahead
-        normal jj
-        let instNextNextLine=getline('.')
-        normal kk
+    elseif instCurLine =~ "^ *)( *$"
+        "----- Split ")(" - parameter list close followed immediately by port list open
+        "----- Insert instance name between ")" and "("
+        call setline('.', "    )")
+        call append(line('.'),     "    " . "u_" . g:moduleName)
+        call append(line('.') + 1, "    (")
+        let g:moduleName = "dummy_inst"
 
-        if instNextNextLine =~ "^ *( *$"
-            "----- Just format
-            call setline('.', substitute(instCurLine,"^ *","    ",""))
+    elseif instCurLine =~ "^ *)"
+        "----- Check if followed by synthesis/preprocessor block ending in standalone ";"
+        "----- E.g.  )  /  `ifdef SYN / /* synthesis ... */ / `endif / ;
+        let l:scan = line('.') + 1
+        let l:semi_lnum = -1
+        while l:scan <= line('$')
+            let l:scanline = getline(l:scan)
+            if l:scanline =~ "^ *; *$"
+                let l:semi_lnum = l:scan
+                break
+            elseif l:scanline =~ "^ *$" || l:scanline =~ "^ *`" || l:scanline =~ "^ */"
+                let l:scan += 1
+            else
+                break
+            endif
+        endwhile
+
+        if l:semi_lnum > 0
+            "----- Merge: delete intervening lines and replace ")" with ");"
+            let l:cur_lnum = line('.')
+            exe (l:cur_lnum + 1) . "," . l:semi_lnum . "d"
+            call setline(l:cur_lnum, "    );")
         else
-            "----- Write module instance name below parameter ")"
-            call setline('.', substitute(instCurLine,"^ *","    ",""))
-            exec "s/$/\r"
-            call setline('.', "    " . "u_" . g:moduleName)
-            " Clear after use as instance
-            let g:moduleName = "dummy_inst"
+            "----- Need to check two lines ahead
+            normal jj
+            let instNextNextLine=getline('.')
+            normal kk
+
+            if instNextNextLine =~ "^ *( *$"
+                "----- Just format
+                call setline('.', substitute(instCurLine,"^ *","    ",""))
+            else
+                "----- Write module instance name below parameter ")"
+                call setline('.', substitute(instCurLine,"^ *","    ",""))
+                call append(line('.'), "    " . "u_" . g:moduleName)
+                " Clear after use as instance
+                let g:moduleName = "dummy_inst"
+            endif
         endif
 
     elseif (instCurLine =~ ") *$") && !(instNextLine =~ "^ *)") && !(instCurLine =~ "(")
         "----- Separate ") from rest of line
         call setline('.', substitute(instCurLine,")","",""))
-        exec "s/$/\r"
-        call setline('.', "    )")
-        normal k
+        call append(line('.'), "    )")
         call FormatToInstanceLine()
 
     elseif instNextLine =~ "^ *#(" || (instNextLine =~ "^ *("  && !(instNextLine =~ '^ *(\*.*\*)'))
@@ -435,10 +461,13 @@ function! FormatToInstanceLine() abort
 
         "----- A few items are different for parameters
         if instCurLine=~"^ *parameter"
-            if instCurLine=~"integer"
-                let nameIndex = "2"
+            "----- Find parameter name as token before "="; fall back to last token if no "=" (e.g. no default value)
+            let l:param_tokens = split(instCurLine)
+            let l:eq_idx = index(l:param_tokens, "=")
+            if l:eq_idx > 0
+                let nameIndex = string(l:eq_idx - 1)
             else
-                let nameIndex = "1"
+                let nameIndex = "-1"
             endif
         else
             let nameIndex = "-1"
@@ -457,6 +486,9 @@ function! FormatToInstanceLine() abort
         if instCurLine =~ '^ *(\*.*\*)'
             let instCurLine = substitute(instCurLine,'(\*.*\*)', "", "")
         endif
+
+        "----- Normalize: remove spaces before closing parentheses (handles re-formatting when signame has trailing space)
+        let instCurLine = substitute(instCurLine, '\s\+)', ')', 'g')
 
         "--------------------------------------------------------------------------------
         "----- Capture sginal name and comments
@@ -489,8 +521,8 @@ function! FormatToInstanceLine() abort
 
         "----- This is the case of a reformat with bus delimiters "{}"
         if (instCurLine =~ "{") && !(instCurLine =~"^ *parameter")
-            let sigName = substitute(instCurLine,".*(\\(.*{.*}\\)).*", "\\1", "")
-            "echo sigName
+            let sigName = matchstr(instCurLine, '(\zs[^)]*\ze)')
+            let sigName = substitute(sigName, '^\s\+\|\s\+$', '', 'g')
         endif
 
         "----- Capture portname
@@ -557,11 +589,15 @@ endfunction
 
 noremap <F8> :call FormatToInstance()<CR>
 function! FormatToInstance() abort
+    let g:moduleName = "dummy_inst"
     let l:winview = winsaveview()
     let l:curline = ""
     while !(l:curline =~ "^ *);")
         let l:curline = getline('.')
         call FormatToInstanceLine()
+        if getline('.') =~ "^ *);"
+            break
+        endif
         normal j
     endwhile
     call winrestview(l:winview)
