@@ -1,7 +1,13 @@
 set runtimepath^=~/.vim
 
+" XDG Base Directory paths for vim
+let g:vim_config_dir  = expand("$HOME/.vim")
+let g:vim_data_dir    = expand("$HOME/.local/share/vim")
+let g:vim_state_dir   = expand("$HOME/.local/state/vim")
+let g:vim_sessions_dir = g:vim_state_dir . "/sessions"
+
 " Initialize vim-plug
-call plug#begin('~/.vim/plugged')
+call plug#begin(g:vim_data_dir . '/plugged')
 
 " Standard plugins
 Plug 'preservim/nerdtree'

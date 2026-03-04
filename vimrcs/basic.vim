@@ -24,7 +24,6 @@
 "
 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let vimdir=".vim"
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -217,22 +216,18 @@ endif
 " => Files, backups and undo
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Backup dirs
-if !has('nvim')
-    let tempDir=expand("$HOME/.vim/temp_dirs")
-else
-    let tempDir=expand("$HOME/.vim/temp_dirs_n")
-endif
-silent execute "!mkdir -p " . tempDir ."/swp"
-silent execute "!mkdir -p " . tempDir ."/bkup"
-silent execute "!mkdir -p " . tempDir ."/undodir"
+silent execute "!mkdir -p " . g:vim_state_dir . "/swp"
+silent execute "!mkdir -p " . g:vim_state_dir . "/bkup"
+silent execute "!mkdir -p " . g:vim_state_dir . "/undodir"
+silent execute "!mkdir -p " . g:vim_sessions_dir
 
 " vimscript doesn't allow using variable in set command...
-let &dir=g:tempDir . "/swp"
-let &backupdir=g:tempDir. "/bkup"
-let &undodir=g:tempDir. "/undodir"
+let &dir       = g:vim_state_dir . "/swp"
+let &backupdir = g:vim_state_dir . "/bkup"
+let &undodir   = g:vim_state_dir . "/undodir"
 set undofile
-set undolevels=1000 "maximum number of changes that can be undone
-set undoreload=10000 "maximum number lines to save for undo on a buffer reload
+set undolevels=1000  " maximum number of changes that can be undone
+set undoreload=10000 " maximum number lines to save for undo on a buffer reload
 
 set backup
 
@@ -240,12 +235,8 @@ set backup
 "  '20  :  marks will be remembered for up to 10 previously edited files
 "  "100 :  will save up to 100 lines for each register
 "  :20  :  up to 20 lines of command-line history will be remembered
-"  %    :  saves and restores the buffer list
-"  n... :  where to save the viminfo files
-"set viminfo='20,\"100,:20,%,n~/.vim/viminfo
-let &viminfo="'20,\"100,:20,n" . g:tempDir . "/viminfo"
-" Remember info about open buffers on close
-"set viminfo^=%
+"  n... :  where to save the viminfo file
+let &viminfo = "'20,\"100,:20,n" . g:vim_state_dir . "/viminfo"
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Text, tab and indent related
@@ -360,7 +351,7 @@ if has('mouse')
 endif
 
 " Modern Vim (8+) has sgr mouse support by default
-if !has('nvim') && !has('gui_running')
+if !has('gui_running')
     set ttymouse=sgr
 endif
 

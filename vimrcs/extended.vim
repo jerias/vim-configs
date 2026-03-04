@@ -282,13 +282,13 @@ function! GetSessionName() abort
     call inputsave()
     let s:sessionName = input('Enter Session Name: ')
     call inputrestore()
-    let s:sessionName = $HOME . "/.vim/temp_dirs/sessions/" . s:sessionName
+    let s:sessionName = g:vim_sessions_dir . "/" . s:sessionName
     echo "Session is :" . s:sessionName
 endfunction
 
 function! SaveSessionOnClose() abort
     if s:sessionName == ""
-        let s:sessionName = $HOME . "/.vim/temp_dirs/sessions/lastsession"
+        let s:sessionName = g:vim_sessions_dir . "/lastsession"
     endif
     call SaveSession()
 endfunction
@@ -300,7 +300,7 @@ function! LoadSessionServerName() abort
         else
             let l:myServerName = v:servername
         endif
-        let s:sessionName = tolower($HOME . "/.vim/temp_dirs/sessions/" . l:myServerName)
+        let s:sessionName = tolower(g:vim_sessions_dir . "/" . l:myServerName)
         if filereadable(s:sessionName)
             call LoadSession()
         endif
