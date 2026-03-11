@@ -6,12 +6,16 @@
 " => Colorscheme related
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 function! s:base16_customize() abort
-    call Tinted_Hi("Search",        g:tinted_gui0A, g:tinted_gui01, g:tinted_cterm0A, g:tinted_cterm01,  "reverse", "")
-    call Tinted_Hi("MatchParen",    g:tinted_gui0B, g:tinted_gui01, g:tinted_cterm0B, g:tinted_cterm01,  "bold", "")
-    call Tinted_Hi("Constant",      g:tinted_gui0B, "", g:tinted_cterm0B, "", "", "")
-    call Tinted_Hi("Deprecated",   "", "", "", "", "", "")
-    call Tinted_Hi("Comment",       g:tinted_gui04, "", g:tinted_cterm04, "",  "italic", "")
-    call Tinted_Hi("VertSplit",     g:tinted_gui0A, g:tinted_gui01, g:tinted_cterm0A, g:tinted_cterm01,  "", "")
+    call Tinted_Hi("Search",           g:tinted_gui0A, g:tinted_gui01, g:tinted_cterm0A, g:tinted_cterm01,  "reverse", "")
+    call Tinted_Hi("MatchParen",       g:tinted_gui0B, g:tinted_gui01, g:tinted_cterm0B, g:tinted_cterm01,  "bold", "")
+    call Tinted_Hi("Constant",         g:tinted_gui0B, "", g:tinted_cterm0B, "", "", "")
+    call Tinted_Hi("Deprecated",       "", "", "", "", "", "")
+    call Tinted_Hi("Comment",          g:tinted_gui04, "", g:tinted_cterm04, "",  "italic", "")
+    call Tinted_Hi("VertSplit",        g:tinted_gui0A, g:tinted_gui01, g:tinted_cterm0A, g:tinted_cterm01,  "", "")
+    " Verilog: backtick macros/directives in brown (gui0F), distinct from Special/Number
+    call Tinted_Hi("verilogGlobal",     g:tinted_gui0F, "", g:tinted_cterm0F, "", "")
+    " Verilog: begin/end/fork/join in Function colour (gui0D) + bold
+    call Tinted_Hi("verilogBlockDelim", g:tinted_gui0D, "", g:tinted_cterm0D, "", "bold")
 endfunction
 
 function! s:handle_focus_gained() abort
@@ -158,7 +162,7 @@ augroup END
 
 augroup filetypedetectOverride
   autocmd!
-  autocmd BufNewFile,BufRead *.v,*.vh,*.vp,*.sv,*.svi,*.svh,*.svp,*.sva setfiletype verilog_systemverilog
+  autocmd BufNewFile,BufRead *.v,*.vh,*.vp,*.sv,*.svi,*.svh,*.svp,*.sva setfiletype systemverilog
 augroup END
 
 "--------------------------------------------------------------------------------
@@ -219,6 +223,11 @@ function! GitDiff() abort
     exe '!git diff % 2>&1'
 endfunction
 map <F5> :call GitDiff()<CR>
+
+"--------------------------------------------------------------------------------
+" Search word under cursor without \< \> word boundaries
+nnoremap * /<C-r><C-w><CR>
+nnoremap # ?<C-r><C-w><CR>
 
 "--------------------------------------------------------------------------------
 " Add exec perms to current file

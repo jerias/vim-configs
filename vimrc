@@ -18,7 +18,7 @@ Plug 'tpope/vim-surround'
 
 " Custom forks - using your repositories
 Plug 'jerias/vim-airline-themes'
-Plug 'jerias/verilog_systemverilog.vim'
+" Plug 'jerias/verilog_systemverilog.vim'  " replaced by ~/.vim/indent/systemverilog.vim + ~/.vim/after/syntax/systemverilog.vim
 Plug 'jerias/vim-buffergator'
 
 call plug#end()
