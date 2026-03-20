@@ -380,6 +380,9 @@ set laststatus=2
 nnoremap <silent> <C-p> "_ce <esc>Pl"_x
 vnoremap <silent> <C-p> "_c <esc>Pl"_x
 
+" Paste as characterwise in visual mode (prevents linewise register adding leading newline)
+xnoremap <silent> p :<C-u>call setreg(v:register, getreg(v:register), 'v')<CR>gvp
+
 "nnoremap <F10> :set invhls<CR>:exec "let @/='\\<".expand("<cword>")."\\>'"<CR>/<BS>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
